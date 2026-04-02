@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulado Datadog Foundations</title>
+  <style>
+    :root {
+      --dd-purple: #632ca6;
+      --dd-purple-dark: #4a1f87;
+      --dd-green: #2dce89;
+      --dd-red: #f5365c;
+      --dd-yellow: #fb6340;
+      --dd-blue: #11cdef;
+      --bg: #f0f2f5;
+      --card: #ffffff;
+      --text: #2d3748;
+      --muted: #718096;
+      --border: #e2e8f0;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--dd-purple);
+      color: #fff;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.25);
+    }
+    header svg { flex-shrink: 0; }
+    header h1 { font-size: 1.25rem; font-weight: 700; }
+    header span { font-size: .85rem; opacity: .75; margin-left: 8px; }
+
+    /* ── Nav Tabs ── */
+    nav {
+      display: flex;
+      gap: 4px;
+      padding: 16px 24px 0;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    nav button {
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px 8px 0 0;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      background: var(--border);
+      color: var(--muted);
+      transition: all .2s;
+    }
+    nav button.active {
+      background: var(--card);
+      color: var(--dd-purple);
+      box-shadow: 0 -2px 0 var(--dd-purple) inset;
+    }
+
+    /* ── Main Container ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+    }
+
+    /* ── Screens ── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ── Home ── */
+    .home-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      padding-top: 24px;
+    }
+    .mode-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 28px 24px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all .2s;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .mode-card:hover { border-color: var(--dd-purple); transform: translateY(-2px); }
+    .mode-card .icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .mode-card h2 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
+    .mode-card p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+
+    .stats-bar {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 24px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .stat { text-align: center; }
+    .stat .val { font-size: 1.8rem; font-weight: 700; color: var(--dd-purple); }
+    .stat .lbl { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── Flashcard ── */
+    .flashcard-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 0 16px;
+      flex-wrap: wrap;
+    }
+    .flashcard-controls label { font-size: .9rem; color: var(--muted); }
+    .flashcard-controls input[type=range] { flex: 1; min-width: 120px; accent-color: var(--dd-purple); }
+    .progress-text { font-size: .85rem; color: var(--muted); margin-left: auto; }
+
+    .flashcard {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+    .question-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--dd-purple);
+      color: #fff;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: .78rem;
+      font-weight: 600;
+      width: fit-content;
+    }
+    .question-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .answer-box {
+      border-top: 2px dashed var(--border);
+      padding-top: 16px;
+      display: none;
+    }
+    .answer-box.visible { display: block; }
+    .answer-label {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--dd-green);
+      margin-bottom: 8px;
+    }
+    .answer-text {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+    .answer-text code {
+      background: #f7fafc;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Courier New', monospace;
+      font-size: .9em;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: .9rem;
+      font-weight: 600;
+      transition: all .15s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--dd-purple); color: #fff; }
+    .btn-primary:hover { background: var(--dd-purple-dark); }
+    .btn-success { background: var(--dd-green); color: #fff; }
+    .btn-success:hover { filter: brightness(.9); }
+    .btn-danger { background: var(--dd-red); color: #fff; }
+    .btn-danger:hover { filter: brightness(.9); }
+    .btn-outline {
+      background: transparent;
+      color: var(--muted);
+      border: 2px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--dd-purple); color: var(--dd-purple); }
+    .btn-sm { padding: 6px 14px; font-size: .82rem; }
+
+    .nav-arrows {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      gap: 12px;
+    }
+    .nav-arrows .center { display: flex; gap: 10px; }
+
+    .progress-bar-wrap {
+      height: 6px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--dd-purple);
+      border-radius: 99px;
+      transition: width .3s;
+    }
+
+    /* ── Simulado ── */
+    .simulado-config {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 28px;
+      margin-top: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .simulado-config h2 { margin-bottom: 20px; }
+    .config-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .config-row label { font-size: .9rem; color: var(--muted); min-width: 180px; }
+    .config-row input, .config-row select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: .9rem;
+      outline: none;
+      transition: border .2s;
+    }
+    .config-row input:focus, .config-row select:focus { border-color: var(--dd-purple); }
+
+    .simulado-active { padding-top: 16px; }
+    .sim-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sim-timer {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--dd-purple);
+      font-variant-numeric: tabular-nums;
+    }
+    .sim-timer.warning { color: var(--dd-red); animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+
+    .reveal-answer-btn {
+      margin-top: 16px;
+    }
+
+    .sim-rating {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    /* ── Results ── */
+    .result-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,.1);
+      margin-top: 20px;
+    }
+    .result-score {
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--dd-purple);
+      line-height: 1;
+    }
+    .result-label { color: var(--muted); margin: 8px 0 24px; }
+    .result-grid {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .result-grid .stat .val { font-size: 1.4rem; }
+
+    /* ── Lista ── */
+    .search-bar {
+      padding: 16px 0 12px;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .95rem;
+      outline: none;
+    }
+    .search-bar input:focus { border-color: var(--dd-purple); }
+
+    .question-list { display: flex; flex-direction: column; gap: 10px; }
+    .q-item {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 16px 20px;
+      cursor: pointer;
+      border: 2px solid transparent;
+      box-shadow: 0 1px 3px rgba(0,0,0,.07);
+      transition: all .15s;
+    }
+    .q-item:hover { border-color: var(--dd-purple); }
+    .q-item.expanded { border-color: var(--dd-purple); }
+    .q-item-header { display: flex; gap: 12px; align-items: flex-start; }
+    .q-num {
+      background: var(--dd-purple);
+      color: #fff;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: .78rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .q-text { font-size: .95rem; font-weight: 500; line-height: 1.5; }
+    .q-answer {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: .9rem;
+      line-height: 1.7;
+      color: var(--text);
+      display: none;
+      white-space: pre-wrap;
+    }
+    .q-answer.show { display: block; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header h1 { font-size: 1rem; }
+      nav button { padding: 8px 14px; font-size: .85rem; }
+      .flashcard { padding: 24px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <!-- Datadog dog icon SVG simplified -->
+  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+    <rect width="36" height="36" rx="8" fill="white" fill-opacity=".15"/>
+    <text x="6" y="26" font-size="22">🐶</text>
+  </svg>
+  <div>
+    <h1>Simulado Datadog Foundations <span>Certificação</span></h1>
+  </div>
+</header>
+
+<nav>
+  <button class="active" onclick="switchTab('home')">Início</button>
+  <button onclick="switchTab('flashcards')">Flashcards</button>
+  <button onclick="switchTab('simulado')">Simulado</button>
+  <button onclick="switchTab('lista')">Todas as Questões</button>
+</nav>
+
+<main>
+
+  <!-- ═══════════ HOME ═══════════ -->
+  <section id="screen-home" class="screen active">
+    <div class="home-grid">
+      <div class="mode-card" onclick="switchTab('flashcards')">
+        <div class="icon">🗂️</div>
+        <h2>Flashcards</h2>
+        <p>Estude cada questão no seu ritmo. Veja a resposta quando quiser e marque se acertou ou errou.</p>
+      </div>
+      <div class="mode-card" onclick="switchTab('simulado')">
+        <div class="icon">⏱️</div>
+        <h2>Simulado</h2>
+        <p>Simule a prova com tempo limite. Revele as respostas e avalie seu desempenho ao final.</p>
+      </div>
+      <div class="mode-card" onclick="switchTab('lista')">
+        <div class="icon">📋</div>
+        <h2>Banco de Questões</h2>
+        <p>Veja todas as questões e respostas de uma vez. Ideal para revisão rápida antes da prova.</p>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="val" id="stat-total">61</div>
+        <div class="lbl">Total de Questões</div>
+      </div>
+      <div class="stat">
+        <div class="val" id="stat-studied">0</div>
+        <div class="lbl">Estudadas</div>
+      </div>
+      <div class="stat">
+        <div class="val" id="stat-correct">0</div>
+        <div class="lbl">Acertos (flashcards)</div>
+      </div>
+      <div class="stat">
+        <div class="val" id="stat-sims">0</div>
+        <div class="lbl">Simulados Feitos</div>
+      </div>
+      <div style="margin-left:auto; align-self:center;">
+        <button class="btn btn-outline btn-sm" onclick="resetStats()">Resetar estatísticas</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FLASHCARDS ═══════════ -->
+  <section id="screen-flashcards" class="screen">
+    <div class="flashcard-controls">
+      <label for="fc-shuffle">Embaralhar</label>
+      <input type="checkbox" id="fc-shuffle" onchange="initFlashcards()" />
+      <button class="btn btn-outline btn-sm" onclick="initFlashcards()">Reiniciar baralho</button>
+      <div class="progress-text" id="fc-progress">Questão 1 / 61</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="fc-progress-bar" style="width:0%"></div>
+    </div>
+
+    <div class="flashcard" id="fc-card">
+      <div class="question-badge">
+        <span>❓</span>
+        <span id="fc-id">Q1</span>
+      </div>
+      <div class="question-text" id="fc-question">Carregando...</div>
+      <div class="answer-box" id="fc-answer-box">
+        <div class="answer-label">✅ Resposta</div>
+        <div class="answer-text" id="fc-answer"></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" id="fc-reveal-btn" onclick="revealFlashcard()">Ver Resposta</button>
+        <button class="btn btn-success" id="fc-ok-btn" onclick="rateFlashcard(true)" style="display:none">✓ Sabia</button>
+        <button class="btn btn-danger" id="fc-nok-btn" onclick="rateFlashcard(false)" style="display:none">✗ Não sabia</button>
+      </div>
+    </div>
+
+    <div class="nav-arrows">
+      <button class="btn btn-outline" onclick="fcNav(-1)">← Anterior</button>
+      <div class="center">
+        <span id="fc-score-text" style="font-size:.85rem;color:var(--muted)"></span>
+      </div>
+      <button class="btn btn-outline" onclick="fcNav(1)">Próxima →</button>
+    </div>
+  </section>
+
+  <!-- ═══════════ SIMULADO ═══════════ -->
+  <section id="screen-simulado" class="screen">
+    <!-- Config -->
+    <div id="sim-config-panel" class="simulado-config">
+      <h2>Configurar Simulado</h2>
+      <div class="config-row">
+        <label>Número de questões</label>
+        <input type="number" id="sim-qty" value="20" min="5" max="61" />
+      </div>
+      <div class="config-row">
+        <label>Tempo limite (minutos)</label>
+        <input type="number" id="sim-time" value="30" min="5" max="120" />
+      </div>
+      <div class="config-row">
+        <label>Ordem das questões</label>
+        <select id="sim-order">
+          <option value="random">Aleatória</option>
+          <option value="sequential">Sequencial</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" style="margin-top:8px" onclick="startSimulado()">Iniciar Simulado</button>
+    </div>
+
+    <!-- Active simulado -->
+    <div id="sim-active-panel" class="simulado-active" style="display:none">
+      <div class="sim-header">
+        <div>
+          <span id="sim-q-counter" style="font-weight:600"></span>
+          <span style="color:var(--muted);margin-left:8px;font-size:.85rem">questões</span>
+        </div>
+        <div class="sim-timer" id="sim-timer">00:00</div>
+        <button class="btn btn-outline btn-sm" onclick="endSimulado()">Encerrar</button>
+      </div>
+      <div class="progress-bar-wrap" style="margin-bottom:16px">
+        <div class="progress-bar-fill" id="sim-progress-bar" style="width:0%"></div>
+      </div>
+
+      <div class="flashcard" id="sim-card">
+        <div class="question-badge">
+          <span>❓</span>
+          <span id="sim-q-id">Q1</span>
+        </div>
+        <div class="question-text" id="sim-question">...</div>
+        <div class="answer-box" id="sim-answer-box">
+          <div class="answer-label">✅ Resposta</div>
+          <div class="answer-text" id="sim-answer"></div>
+        </div>
+        <div class="card-actions reveal-answer-btn">
+          <button class="btn btn-primary" id="sim-reveal-btn" onclick="revealSimAnswer()">Ver Resposta</button>
+          <button class="btn btn-success" id="sim-ok-btn" onclick="rateSimAnswer(true)" style="display:none">✓ Sabia</button>
+          <button class="btn btn-danger" id="sim-nok-btn" onclick="rateSimAnswer(false)" style="display:none">✗ Não sabia</button>
+        </div>
+      </div>
+
+      <div class="nav-arrows" style="margin-top:16px">
+        <button class="btn btn-outline" onclick="simNav(-1)">← Anterior</button>
+        <span id="sim-score-live" style="font-size:.85rem;color:var(--muted)"></span>
+        <button class="btn btn-outline" onclick="simNav(1)">Próxima →</button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="sim-result-panel" style="display:none">
+      <div class="result-card">
+        <div class="result-score" id="res-pct">0%</div>
+        <div class="result-label">de acerto no simulado</div>
+        <div class="result-grid">
+          <div class="stat">
+            <div class="val" id="res-correct">0</div>
+            <div class="lbl">Acertos</div>
+          </div>
+          <div class="stat">
+            <div class="val" id="res-wrong">0</div>
+            <div class="lbl">Erros</div>
+          </div>
+          <div class="stat">
+            <div class="val" id="res-skipped">0</div>
+            <div class="lbl">Puladas</div>
+          </div>
+          <div class="stat">
+            <div class="val" id="res-time">--</div>
+            <div class="lbl">Tempo usado</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="showSimConfig()">Novo Simulado</button>
+          <button class="btn btn-outline" onclick="switchTab('lista')">Ver todas as questões</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ LISTA ═══════════ -->
+  <section id="screen-lista" class="screen">
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Buscar questão ou resposta..." oninput="filterList()" />
+    </div>
+    <div class="question-list" id="question-list"></div>
+  </section>
+
+</main>
+
+<script>
+// ─────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────
+const QUESTIONS = [
+  {id:1, q:"Como o Datadog coleta métricas de integrações de provedores cloud (AWS, Azure, GCP)?", a:'Datadog faz o "pull" — consulta a API do provedor e busca as métricas.'},
+  {id:2, q:"Quais endereços estão na mesma rede? (192.168.1.*, 192.168.2.*)", a:"Os três 192.168.1.* pertencem à rede-pai 192.168.1.0/24."},
+  {id:3, q:"Qual é a sintaxe DogStatsD para uso de disco de um host específico com rollup de 1 hora?", a:"sum:system.disk.in_use{host:<host>} rollup(avg,3600)"},
+  {id:4, q:"Variável Docker para habilitar logs no Agent", a:"DD_LOGS_ENABLED=true (+ opcional DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true)."},
+  {id:5, q:'Widget para comparar métrica "semana × semana anterior"', a:"Timeseries com Time Comparison → Previous week."},
+  {id:6, q:"O que faz o comando datadog-agent diagnose?", a:"Executa testes de saúde (rede, API Key, permissões) → PASS/FAIL."},
+  {id:7, q:"Como ver métricas & tags que uma integração envia?", a:"datadog-agent check <integração>"},
+  {id:8, q:"Sintaxe da mensagem de recovery num Monitor", a:"{{#is_recovery}}…{{/is_recovery}}"},
+  {id:9, q:"Frequência com que o Agent envia metadata/config", a:"10 minutos"},
+  {id:10, q:"Por que o DogStatsD usa UDP em vez de TCP?", a:"Menor overhead / latência (fire-and-forget)."},
+  {id:11, q:"Para que serve a porta 5002 no Agent?", a:"GUI local (interface web) do Agent."},
+  {id:12, q:"Gráfico ideal para uso de CPU de mais de 1000 hosts", a:"Heat Map (gráfico de calor)."},
+  {id:13, q:"Integrações API PagerDuty / Slack: qual é a finalidade delas no Datadog?", a:"Enviar alertas/notificações; não coletar métricas."},
+  {id:14, q:"Qual é a finalidade da API Key no Datadog?", a:"Identifica e autoriza chamadas à API (não é chave de criptografia)."},
+  {id:15, q:"Permissão mínima para listar dashboards via API", a:"Dashboards Read (dashboards_read)."},
+  {id:16, q:"Limite padrão de API Keys por conta", a:"50 (pode ser ampliado via suporte)."},
+  {id:17, q:"A métrica system.cpu.system mede o quê?", a:"Tempo de CPU em modo kernel (sistema)."},
+  {id:18, q:"Quais linguagens possuem instrumentação nativa no Datadog? (Ruby/Go × JS/C++)", a:"Ruby & Go."},
+  {id:19, q:"Existe integração nativa do Datadog com Rust?", a:"Não; usar OpenTelemetry ou libs de terceiros."},
+  {id:20, q:"Agent instalado mas sem métricas — qual é o primeiro passo de diagnóstico?", a:"Analisar os logs do Agent."},
+  {id:21, q:"Como definir versão específica do Nginx (1.21.1) num Docker Compose?", a:"Definir image: nginx:1.21.1."},
+  {id:22, q:"Variável de Auto-Discovery para a porta mais alta", a:"%port_1%"},
+  {id:23, q:"Check Python customizado: quais diretórios usar e como configurar intervalo de 2 min?", a:"Linux: script em /etc/datadog-agent/checks.d/, conf em /etc/datadog-agent/conf.d/<nome>.d/conf.yaml com min_collection_interval: 120.\nWindows: caminhos equivalentes em C:\\ProgramData\\Datadog\\…."},
+  {id:24, q:"Como o Agent define o hostname numa EC2?", a:"Usa automaticamente o ID/nome da instância via AWS metadata."},
+  {id:25, q:"Qual metadado é mais completo para análise de causa-raiz: tag, trace ou métrica?", a:"Tracing (rastreamentos)."},
+  {id:26, q:"O que acontece ao enviar uma métrica com valor textual via API?", a:"400 Bad Request."},
+  {id:27, q:"Estrutura de pastas para integrações & checks (Linux/Win)", a:"Configs: conf.d/<integração>.d/\nScripts: checks.d/"},
+  {id:28, q:"O que fazem os checks customizados no Datadog?", a:"Executam Python no Agent para coletar métricas/eventos extras."},
+  {id:29, q:"Como coletar logs de containers Docker no Datadog?", a:"Rodar Agent com DD_LOGS_ENABLED=true (e/ou usar Auto-Discovery)."},
+  {id:30, q:"Ao revogar um usuário, qual chave é desabilitada?", a:"Apenas as Application Keys do usuário; API Key permanece válida."},
+  {id:31, q:"O que é um flare no contexto do Datadog Agent?", a:"Arquivo tar.gz com logs + configs para o suporte Datadog; já pode abrir o ticket para o suporte."},
+  {id:32, q:"Qual comando gera um flare no Datadog Agent?", a:"datadog-agent flare / agent.exe flare."},
+  {id:33, q:"Qual é o protocolo padrão do DogStatsD?", a:"UDP (padrão) / UDS opcional."},
+  {id:34, q:"Qual é a vantagem do DogStatsD?", a:"Baixo overhead, agrega localmente, suporta tags."},
+  {id:35, q:"O que o DogStatsD faz com as métricas recebidas?", a:"Recebe métricas do app, agrega em 10 s e envia ao backend."},
+  {id:36, q:"Qual é o intervalo de flush do DogStatsD?", a:"10 segundos."},
+  {id:37, q:"Qual campo alterar para aumentar o limite de coleta de arquivos de logs no Datadog Agent?", a:"logs_config.open_files_limit em datadog.yaml (ou env DD_LOGS_CONFIG_OPEN_FILES_LIMIT).\n\nExemplo:\n  logs_config:\n    open_files_limit: 500"},
+  {id:38, q:"Regra correta para tag customizada (deve iniciar com letra, terminar com ':', sem '-')?", a:"A tag deve iniciar com letra."},
+  {id:39, q:"Forma correta de declarar a tag 'teams' dentro do datadog.yaml", a:"teams:infra (formato chave:valor)."},
+  {id:40, q:"Separador correto ao habilitar logs — YAML vs. variável de ambiente", a:"YAML → logs_enabled: true (dois-pontos).\nEnv/Compose/K8s → DD_LOGS_ENABLED=true (igual)."},
+  {id:41, q:"Palavra-chave para agrupar/filtrar por tag em query no Datadog (by ou not in)?", a:"by"},
+  {id:42, q:"Qual é o resultado de -avg:system.cpu.system{host:valor} by {host}?", a:"Um timeseries para cada host correspondente, contendo a média de system.cpu.system multiplicada por –1 (prefixo '-' inverte o sinal). Exibe a média de CPU em modo kernel por host, mas como valores negativos."},
+  {id:43, q:"Quais são os principais comandos do Datadog Agent no Linux?", a:"Start:    sudo systemctl start datadog-agent\nStop:     sudo systemctl stop datadog-agent\nRestart:  sudo systemctl restart datadog-agent\nStatus:   sudo systemctl status datadog-agent\nStatus página: sudo datadog-agent status\nFlare:    sudo datadog-agent flare\nHelp:     sudo datadog-agent --help\nRun check: sudo -u dd-agent -- datadog-agent check <CHECK_NAME>"},
+  {id:44, q:"Quando uma conta de usuário do Datadog é desativada, o que acontece com as API Keys e App Keys criadas por essa conta?", a:"As API Keys criadas pela conta desativada permanecem válidas.\nAs App Keys (Application Keys) criadas pela conta desativada são revogadas."},
+  {id:45, q:"Como declarar o tageamento no arquivo datadog.yaml?", a:"env:prod\n(formato chave:valor, uma tag por linha)"},
+  {id:46, q:"Quando finaliza a instalação do agente e ele não se comunica com o SaaS Datadog, qual é a primeira verificação a ser feita?", a:"Verificar o log do Agent."},
+  {id:47, q:"Ao fazer alterações no arquivo datadog.yaml, quando elas são aplicadas?", a:"O Datadog Agent deve ser reiniciado para aplicar as alterações feitas no arquivo datadog.yaml."},
+  {id:48, q:"O que são métricas personalizadas (custom metrics) no Datadog?", a:"Qualquer métrica enviada usando o DogStatsD ou uma verificação personalizada do Agent é considerada uma métrica personalizada."},
+  {id:49, q:"O agente em um host Ubuntu foi parado para edição e precisa ser iniciado novamente. Qual comando usar?", a:"sudo service datadog-agent restart"},
+  {id:50, q:"Qual das seguintes opções é uma ferramenta de implantação compatível com Datadog? (Ansible, Terraform, Chef, Puppet)", a:"Ansible (e também Terraform, Chef, Puppet — todas são ferramentas de implantação compatíveis)."},
+  {id:51, q:"O gráfico da métrica system.load.1 restrito a um host indica que ele roda Linux ou Windows?", a:"O host está executando Linux (system.load.1 não existe no Windows)."},
+  {id:52, q:"O que a métrica system.cpu.system representa?", a:"A porcentagem de tempo que a CPU gastou executando o kernel."},
+  {id:53, q:"Após fazer alterações no datadog.yaml com o Agent em execução, quando as mudanças são aplicadas?", a:"Na próxima vez que o Agent iniciar (reinício necessário)."},
+  {id:54, q:"Qual é o propósito do arquivo auto_conf.yaml em um diretório conf.d de integração?", a:"Fornece configuração padrão para Auto-Discovery, permitindo que o Agent detecte automaticamente containers e aplique a configuração de integração sem intervenção manual."},
+  {id:55, q:"Para um Datadog Agent em execução, qual é o método definitivo para determinar seus valores de configuração padrão?", a:"Examinar o arquivo original datadog.yaml."},
+  {id:56, q:"Uma vez que uma integração é habilitada/configurada, como os Dashboards prontos ficam disponíveis?", a:"São clonados e usados como modelos (templates)."},
+  {id:57, q:"O que os checks customizados fazem no Datadog?", a:"Coletam métricas e outros dados de sistemas ou aplicativos personalizados e enviam ao Datadog."},
+  {id:58, q:"Para realizar a coleta de um check a cada 2 minutos, qual deve ser a configuração do campo de intervalo?", a:"120 no campo min_collection_interval: 120"},
+  {id:59, q:"Qual comando Linux mostra o nome do host?", a:"cat /etc/hostname"},
+  {id:60, q:"Qual comando Linux mostra a versão do sistema operacional?", a:"cat /etc/os-release"},
+  {id:61, q:"Qual comando Datadog executa testes de saúde (rede, API Key, permissões) → PASS/FAIL?", a:"datadog-agent diagnose"},
+];
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let stats = JSON.parse(localStorage.getItem('dd_stats') || '{"studied":0,"correct":0,"sims":0}');
+
+// Flashcard state
+let fcDeck = [];
+let fcIndex = 0;
+let fcRevealed = false;
+let fcSessionCorrect = 0;
+let fcSessionTotal = 0;
+
+// Simulado state
+let simDeck = [];
+let simIndex = 0;
+let simAnswers = {}; // index -> true/false/null
+let simRevealed = {};
+let simTimerInterval = null;
+let simStartTime = null;
+let simDuration = 30 * 60;
+let simActive = false;
+
+// ─────────────────────────────────────────────
+// TABS
+// ─────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('screen-' + tab).classList.add('active');
+  const tabs = ['home','flashcards','simulado','lista'];
+  document.querySelectorAll('nav button')[tabs.indexOf(tab)].classList.add('active');
+
+  if (tab === 'home') updateHomeStats();
+  if (tab === 'flashcards' && fcDeck.length === 0) initFlashcards();
+  if (tab === 'lista') renderList();
+}
+
+// ─────────────────────────────────────────────
+// HOME STATS
+// ─────────────────────────────────────────────
+function saveStats() { localStorage.setItem('dd_stats', JSON.stringify(stats)); }
+function updateHomeStats() {
+  document.getElementById('stat-studied').textContent = stats.studied;
+  document.getElementById('stat-correct').textContent = stats.correct;
+  document.getElementById('stat-sims').textContent = stats.sims;
+}
+function resetStats() {
+  if (!confirm('Resetar todas as estatísticas?')) return;
+  stats = {studied:0, correct:0, sims:0};
+  saveStats();
+  updateHomeStats();
+}
+
+// ─────────────────────────────────────────────
+// FLASHCARDS
+// ─────────────────────────────────────────────
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function initFlashcards() {
+  fcDeck = document.getElementById('fc-shuffle').checked ? shuffle(QUESTIONS) : [...QUESTIONS];
+  fcIndex = 0;
+  fcSessionCorrect = 0;
+  fcSessionTotal = 0;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  fcRevealed = false;
+  const q = fcDeck[fcIndex];
+  document.getElementById('fc-id').textContent = `Q${q.id}`;
+  document.getElementById('fc-question').textContent = q.q;
+  document.getElementById('fc-answer').textContent = q.a;
+  document.getElementById('fc-answer-box').classList.remove('visible');
+  document.getElementById('fc-reveal-btn').style.display = '';
+  document.getElementById('fc-ok-btn').style.display = 'none';
+  document.getElementById('fc-nok-btn').style.display = 'none';
+
+  const pct = Math.round((fcIndex / fcDeck.length) * 100);
+  document.getElementById('fc-progress').textContent = `Questão ${fcIndex+1} / ${fcDeck.length}`;
+  document.getElementById('fc-progress-bar').style.width = pct + '%';
+  document.getElementById('fc-score-text').textContent =
+    fcSessionTotal > 0 ? `✓ ${fcSessionCorrect}  ✗ ${fcSessionTotal - fcSessionCorrect}` : '';
+}
+
+function revealFlashcard() {
+  fcRevealed = true;
+  document.getElementById('fc-answer-box').classList.add('visible');
+  document.getElementById('fc-reveal-btn').style.display = 'none';
+  document.getElementById('fc-ok-btn').style.display = '';
+  document.getElementById('fc-nok-btn').style.display = '';
+}
+
+function rateFlashcard(correct) {
+  fcSessionTotal++;
+  if (correct) { fcSessionCorrect++; stats.correct++; }
+  stats.studied++;
+  saveStats();
+  fcNav(1);
+}
+
+function fcNav(dir) {
+  fcIndex = Math.max(0, Math.min(fcDeck.length - 1, fcIndex + dir));
+  renderFlashcard();
+}
+
+// ─────────────────────────────────────────────
+// SIMULADO
+// ─────────────────────────────────────────────
+function showSimConfig() {
+  document.getElementById('sim-config-panel').style.display = '';
+  document.getElementById('sim-active-panel').style.display = 'none';
+  document.getElementById('sim-result-panel').style.display = 'none';
+  if (simTimerInterval) { clearInterval(simTimerInterval); simTimerInterval = null; }
+}
+
+function startSimulado() {
+  const qty = Math.min(parseInt(document.getElementById('sim-qty').value) || 20, QUESTIONS.length);
+  const mins = parseInt(document.getElementById('sim-time').value) || 30;
+  const order = document.getElementById('sim-order').value;
+
+  let pool = order === 'random' ? shuffle(QUESTIONS) : [...QUESTIONS];
+  simDeck = pool.slice(0, qty);
+  simIndex = 0;
+  simAnswers = {};
+  simRevealed = {};
+  simDuration = mins * 60;
+  simStartTime = Date.now();
+  simActive = true;
+
+  document.getElementById('sim-config-panel').style.display = 'none';
+  document.getElementById('sim-active-panel').style.display = '';
+  document.getElementById('sim-result-panel').style.display = 'none';
+
+  renderSimCard();
+  startTimer();
+  stats.sims++;
+  saveStats();
+}
+
+function startTimer() {
+  if (simTimerInterval) clearInterval(simTimerInterval);
+  simTimerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - simStartTime) / 1000);
+    const remaining = simDuration - elapsed;
+    if (remaining <= 0) {
+      clearInterval(simTimerInterval);
+      simTimerInterval = null;
+      showResults();
+      return;
+    }
+    const m = String(Math.floor(remaining/60)).padStart(2,'0');
+    const s = String(remaining%60).padStart(2,'0');
+    const el = document.getElementById('sim-timer');
+    el.textContent = `${m}:${s}`;
+    el.classList.toggle('warning', remaining <= 60);
+  }, 500);
+}
+
+function renderSimCard() {
+  const q = simDeck[simIndex];
+  document.getElementById('sim-q-id').textContent = `Q${q.id}`;
+  document.getElementById('sim-question').textContent = q.q;
+  document.getElementById('sim-answer').textContent = q.a;
+
+  const revealed = simRevealed[simIndex];
+  document.getElementById('sim-answer-box').classList.toggle('visible', !!revealed);
+  document.getElementById('sim-reveal-btn').style.display = revealed ? 'none' : '';
+  document.getElementById('sim-ok-btn').style.display = revealed ? '' : 'none';
+  document.getElementById('sim-nok-btn').style.display = revealed ? '' : 'none';
+
+  // If already rated, update button states
+  const rated = simAnswers[simIndex];
+  if (revealed && rated !== undefined) {
+    document.getElementById('sim-ok-btn').style.opacity = rated === true ? '1' : '0.4';
+    document.getElementById('sim-nok-btn').style.opacity = rated === false ? '1' : '0.4';
+  }
+
+  document.getElementById('sim-q-counter').textContent = `${simIndex+1} / ${simDeck.length}`;
+  document.getElementById('sim-progress-bar').style.width = ((simIndex+1)/simDeck.length*100)+'%';
+
+  const rated_count = Object.keys(simAnswers).length;
+  const correct_count = Object.values(simAnswers).filter(Boolean).length;
+  document.getElementById('sim-score-live').textContent =
+    rated_count > 0 ? `Respondidas: ${rated_count} | ✓ ${correct_count}  ✗ ${rated_count-correct_count}` : '';
+}
+
+function revealSimAnswer() {
+  simRevealed[simIndex] = true;
+  renderSimCard();
+}
+
+function rateSimAnswer(correct) {
+  simAnswers[simIndex] = correct;
+  const btn_ok = document.getElementById('sim-ok-btn');
+  const btn_nok = document.getElementById('sim-nok-btn');
+  btn_ok.style.opacity = correct ? '1' : '0.4';
+  btn_nok.style.opacity = !correct ? '1' : '0.4';
+
+  renderSimCard();
+  // auto advance if not last
+  if (simIndex < simDeck.length - 1) {
+    setTimeout(() => simNav(1), 400);
+  }
+}
+
+function simNav(dir) {
+  simIndex = Math.max(0, Math.min(simDeck.length - 1, simIndex + dir));
+  renderSimCard();
+}
+
+function endSimulado() {
+  if (!confirm('Encerrar o simulado agora?')) return;
+  if (simTimerInterval) clearInterval(simTimerInterval);
+  showResults();
+}
+
+function showResults() {
+  simActive = false;
+  document.getElementById('sim-active-panel').style.display = 'none';
+  document.getElementById('sim-result-panel').style.display = '';
+
+  const total = simDeck.length;
+  const answered = Object.keys(simAnswers).length;
+  const correct = Object.values(simAnswers).filter(Boolean).length;
+  const wrong = answered - correct;
+  const skipped = total - answered;
+  const pct = answered > 0 ? Math.round((correct / total) * 100) : 0;
+
+  const elapsed = Math.floor((Date.now() - simStartTime) / 1000);
+  const m = String(Math.floor(elapsed/60)).padStart(2,'0');
+  const s = String(elapsed%60).padStart(2,'0');
+
+  document.getElementById('res-pct').textContent = pct + '%';
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-skipped').textContent = skipped;
+  document.getElementById('res-time').textContent = `${m}:${s}`;
+
+  document.getElementById('res-pct').style.color =
+    pct >= 70 ? 'var(--dd-green)' : pct >= 50 ? 'var(--dd-yellow)' : 'var(--dd-red)';
+}
+
+// ─────────────────────────────────────────────
+// LISTA
+// ─────────────────────────────────────────────
+function renderList(filter = '') {
+  const container = document.getElementById('question-list');
+  const lower = filter.toLowerCase();
+  container.innerHTML = '';
+  QUESTIONS.filter(q =>
+    !filter || q.q.toLowerCase().includes(lower) || q.a.toLowerCase().includes(lower)
+  ).forEach(q => {
+    const div = document.createElement('div');
+    div.className = 'q-item';
+    div.innerHTML = `
+      <div class="q-item-header">
+        <span class="q-num">${q.id}</span>
+        <span class="q-text">${q.q}</span>
+      </div>
+      <div class="q-answer">${q.a}</div>
+    `;
+    div.addEventListener('click', () => {
+      div.classList.toggle('expanded');
+      div.querySelector('.q-answer').classList.toggle('show');
+    });
+    container.appendChild(div);
+  });
+}
+
+function filterList() {
+  renderList(document.getElementById('search-input').value);
+}
+
+// ─────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────
+updateHomeStats();
+</script>
+</body>
+</html>
