@@ -8,8 +8,11 @@
     :root {
       --dd-purple: #632ca6;
       --dd-purple-dark: #4a1f87;
+      --dd-purple-light: #ede8f7;
       --dd-green: #2dce89;
+      --dd-green-light: #e6faf3;
       --dd-red: #f5365c;
+      --dd-red-light: #fde8ed;
       --dd-yellow: #fb6340;
       --dd-blue: #11cdef;
       --bg: #f0f2f5;
@@ -18,372 +21,228 @@
       --muted: #718096;
       --border: #e2e8f0;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    /* ── Header ── */
+    /* Header */
     header {
       background: var(--dd-purple);
       color: #fff;
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       gap: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,.25);
     }
-    header svg { flex-shrink: 0; }
-    header h1 { font-size: 1.25rem; font-weight: 700; }
-    header span { font-size: .85rem; opacity: .75; margin-left: 8px; }
+    header h1 { font-size: 1.2rem; font-weight: 700; }
+    header span { font-size: .82rem; opacity: .7; margin-left: 8px; }
 
-    /* ── Nav Tabs ── */
-    nav {
-      display: flex;
-      gap: 4px;
-      padding: 16px 24px 0;
-      max-width: 900px;
-      margin: 0 auto;
-    }
+    /* Nav */
+    nav { display: flex; gap: 4px; padding: 16px 24px 0; max-width: 960px; margin: 0 auto; }
     nav button {
-      padding: 10px 24px;
-      border: none;
-      border-radius: 8px 8px 0 0;
-      cursor: pointer;
-      font-size: .95rem;
-      font-weight: 600;
-      background: var(--border);
-      color: var(--muted);
-      transition: all .2s;
+      padding: 10px 22px; border: none; border-radius: 8px 8px 0 0;
+      cursor: pointer; font-size: .9rem; font-weight: 600;
+      background: var(--border); color: var(--muted); transition: all .2s;
     }
-    nav button.active {
-      background: var(--card);
-      color: var(--dd-purple);
-      box-shadow: 0 -2px 0 var(--dd-purple) inset;
-    }
+    nav button.active { background: var(--card); color: var(--dd-purple); box-shadow: 0 -2px 0 var(--dd-purple) inset; }
 
-    /* ── Main Container ── */
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px 40px;
-    }
-
-    /* ── Screens ── */
+    /* Main */
+    main { max-width: 960px; margin: 0 auto; padding: 0 24px 48px; }
     .screen { display: none; }
     .screen.active { display: block; }
 
-    /* ── Home ── */
-    .home-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      padding-top: 24px;
-    }
+    /* Home */
+    .home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; padding-top: 24px; }
     .mode-card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 28px 24px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: all .2s;
-      text-align: center;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      background: var(--card); border-radius: 12px; padding: 28px 22px;
+      cursor: pointer; border: 2px solid transparent; transition: all .2s;
+      text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,.08);
     }
     .mode-card:hover { border-color: var(--dd-purple); transform: translateY(-2px); }
-    .mode-card .icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .mode-card h2 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
-    .mode-card p { font-size: .85rem; color: var(--muted); line-height: 1.5; }
+    .mode-card .icon { font-size: 2.4rem; margin-bottom: 10px; }
+    .mode-card h2 { font-size: 1.05rem; color: var(--text); margin-bottom: 6px; }
+    .mode-card p { font-size: .83rem; color: var(--muted); line-height: 1.5; }
 
     .stats-bar {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin-top: 24px;
-      display: flex;
-      gap: 32px;
-      flex-wrap: wrap;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      background: var(--card); border-radius: 12px; padding: 18px 24px;
+      margin-top: 20px; display: flex; gap: 28px; flex-wrap: wrap;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08); align-items: center;
     }
     .stat { text-align: center; }
-    .stat .val { font-size: 1.8rem; font-weight: 700; color: var(--dd-purple); }
-    .stat .lbl { font-size: .8rem; color: var(--muted); margin-top: 2px; }
+    .stat .val { font-size: 1.7rem; font-weight: 700; color: var(--dd-purple); }
+    .stat .lbl { font-size: .78rem; color: var(--muted); margin-top: 2px; }
 
-    /* ── Flashcard ── */
-    .flashcard-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 20px 0 16px;
-      flex-wrap: wrap;
-    }
-    .flashcard-controls label { font-size: .9rem; color: var(--muted); }
-    .flashcard-controls input[type=range] { flex: 1; min-width: 120px; accent-color: var(--dd-purple); }
-    .progress-text { font-size: .85rem; color: var(--muted); margin-left: auto; }
-
-    .flashcard {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 36px 32px;
-      box-shadow: 0 2px 12px rgba(0,0,0,.1);
-      min-height: 260px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      position: relative;
-    }
-    .question-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--dd-purple);
-      color: #fff;
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: .78rem;
-      font-weight: 600;
-      width: fit-content;
-    }
-    .question-text {
-      font-size: 1.15rem;
-      font-weight: 600;
-      line-height: 1.6;
-      flex: 1;
-    }
-
-    .answer-box {
-      border-top: 2px dashed var(--border);
-      padding-top: 16px;
-      display: none;
-    }
-    .answer-box.visible { display: block; }
-    .answer-label {
-      font-size: .75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: var(--dd-green);
-      margin-bottom: 8px;
-    }
-    .answer-text {
-      font-size: 1rem;
-      line-height: 1.7;
-      color: var(--text);
-      white-space: pre-wrap;
-    }
-    .answer-text code {
-      background: #f7fafc;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-family: 'Courier New', monospace;
-      font-size: .9em;
-    }
-
-    .card-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
+    /* Buttons */
     .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: .9rem;
-      font-weight: 600;
-      transition: all .15s;
+      padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;
+      font-size: .9rem; font-weight: 600; transition: all .15s;
     }
     .btn:active { transform: scale(.97); }
     .btn-primary { background: var(--dd-purple); color: #fff; }
     .btn-primary:hover { background: var(--dd-purple-dark); }
-    .btn-success { background: var(--dd-green); color: #fff; }
-    .btn-success:hover { filter: brightness(.9); }
-    .btn-danger { background: var(--dd-red); color: #fff; }
-    .btn-danger:hover { filter: brightness(.9); }
-    .btn-outline {
-      background: transparent;
-      color: var(--muted);
-      border: 2px solid var(--border);
-    }
+    .btn-outline { background: transparent; color: var(--muted); border: 2px solid var(--border); }
     .btn-outline:hover { border-color: var(--dd-purple); color: var(--dd-purple); }
     .btn-sm { padding: 6px 14px; font-size: .82rem; }
+    .btn-danger { background: var(--dd-red); color: #fff; }
 
-    .nav-arrows {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 20px;
-      gap: 12px;
-    }
-    .nav-arrows .center { display: flex; gap: 10px; }
+    /* Progress */
+    .progress-bar-wrap { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; margin-bottom: 4px; }
+    .progress-bar-fill { height: 100%; background: var(--dd-purple); border-radius: 99px; transition: width .3s; }
 
-    .progress-bar-wrap {
-      height: 6px;
-      background: var(--border);
-      border-radius: 99px;
-      overflow: hidden;
-      margin-bottom: 4px;
+    /* Question Card */
+    .q-card {
+      background: var(--card); border-radius: 16px; padding: 32px 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.09); margin-top: 4px;
     }
-    .progress-bar-fill {
-      height: 100%;
-      background: var(--dd-purple);
-      border-radius: 99px;
-      transition: width .3s;
+    .q-meta {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 18px;
     }
+    .q-badge {
+      background: var(--dd-purple); color: #fff; border-radius: 20px;
+      padding: 3px 12px; font-size: .76rem; font-weight: 700;
+    }
+    .q-counter { font-size: .83rem; color: var(--muted); }
+    .q-text { font-size: 1.12rem; font-weight: 600; line-height: 1.65; margin-bottom: 24px; }
 
-    /* ── Simulado ── */
-    .simulado-config {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 28px;
-      margin-top: 20px;
-      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    /* Options */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .option-btn {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 16px; border-radius: 10px; cursor: pointer;
+      border: 2px solid var(--border); background: #fff;
+      font-size: .95rem; line-height: 1.5; text-align: left;
+      transition: all .15s; font-family: inherit; color: var(--text);
     }
-    .simulado-config h2 { margin-bottom: 20px; }
-    .config-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+    .option-btn:hover:not(:disabled) { border-color: var(--dd-purple); background: var(--dd-purple-light); }
+    .option-btn .opt-letter {
+      font-weight: 700; color: var(--dd-purple); min-width: 22px;
+      font-size: .9rem; padding-top: 1px;
     }
-    .config-row label { font-size: .9rem; color: var(--muted); min-width: 180px; }
+    .option-btn.correct {
+      border-color: var(--dd-green); background: var(--dd-green-light);
+    }
+    .option-btn.correct .opt-letter { color: var(--dd-green); }
+    .option-btn.wrong {
+      border-color: var(--dd-red); background: var(--dd-red-light);
+    }
+    .option-btn.wrong .opt-letter { color: var(--dd-red); }
+    .option-btn:disabled { cursor: default; }
+
+    /* Explanation */
+    .explanation {
+      margin-top: 18px; padding: 14px 16px; border-radius: 10px;
+      background: #f7fafc; border-left: 4px solid var(--dd-green);
+      font-size: .9rem; line-height: 1.7; display: none;
+      white-space: pre-wrap;
+    }
+    .explanation.show { display: block; }
+    .explanation-label { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--dd-green); margin-bottom: 6px; }
+
+    /* Card nav */
+    .card-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; gap: 12px; }
+    .card-nav .center { font-size: .85rem; color: var(--muted); }
+
+    /* Flashcard controls */
+    .fc-controls { display: flex; align-items: center; gap: 14px; padding: 20px 0 14px; flex-wrap: wrap; }
+    .fc-controls label { font-size: .88rem; color: var(--muted); }
+    .fc-score { font-size: .85rem; color: var(--muted); margin-left: auto; }
+
+    /* Simulado */
+    .sim-config {
+      background: var(--card); border-radius: 12px; padding: 28px;
+      margin-top: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+    .sim-config h2 { margin-bottom: 20px; }
+    .config-row { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; flex-wrap: wrap; }
+    .config-row label { font-size: .9rem; color: var(--muted); min-width: 190px; }
     .config-row input, .config-row select {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: .9rem;
-      outline: none;
-      transition: border .2s;
+      padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px;
+      font-size: .9rem; outline: none; transition: border .2s;
     }
     .config-row input:focus, .config-row select:focus { border-color: var(--dd-purple); }
 
-    .simulado-active { padding-top: 16px; }
     .sim-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 8px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px; flex-wrap: wrap; gap: 8px;
     }
-    .sim-timer {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--dd-purple);
-      font-variant-numeric: tabular-nums;
-    }
+    .sim-timer { font-size: 1.4rem; font-weight: 700; color: var(--dd-purple); font-variant-numeric: tabular-nums; }
     .sim-timer.warning { color: var(--dd-red); animation: pulse 1s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .4; } }
 
-    .reveal-answer-btn {
-      margin-top: 16px;
-    }
-
-    .sim-rating {
-      display: flex;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    /* ── Results ── */
+    /* Results */
     .result-card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 40px;
-      text-align: center;
-      box-shadow: 0 2px 12px rgba(0,0,0,.1);
-      margin-top: 20px;
+      background: var(--card); border-radius: 16px; padding: 40px 32px;
+      text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,.1); margin-top: 20px;
     }
-    .result-score {
-      font-size: 4rem;
-      font-weight: 700;
-      color: var(--dd-purple);
-      line-height: 1;
-    }
+    .result-score { font-size: 4rem; font-weight: 700; color: var(--dd-purple); line-height: 1; }
     .result-label { color: var(--muted); margin: 8px 0 24px; }
-    .result-grid {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      margin-bottom: 28px;
-    }
+    .result-grid { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 28px; }
     .result-grid .stat .val { font-size: 1.4rem; }
-
-    /* ── Lista ── */
-    .search-bar {
-      padding: 16px 0 12px;
+    .result-badge {
+      display: inline-block; padding: 8px 24px; border-radius: 99px;
+      font-weight: 700; font-size: 1rem; margin-bottom: 24px;
     }
+    .badge-pass { background: var(--dd-green-light); color: var(--dd-green); }
+    .badge-fail { background: var(--dd-red-light); color: var(--dd-red); }
+
+    /* Review */
+    .review-section { margin-top: 28px; text-align: left; }
+    .review-section h3 { font-size: 1rem; margin-bottom: 14px; color: var(--text); }
+    .review-item {
+      background: var(--card); border-radius: 10px; padding: 16px 18px;
+      margin-bottom: 10px; border-left: 4px solid var(--dd-red);
+      box-shadow: 0 1px 3px rgba(0,0,0,.07);
+    }
+    .review-item .rq-text { font-size: .93rem; font-weight: 600; margin-bottom: 10px; line-height: 1.5; }
+    .review-item .rq-your { font-size: .85rem; color: var(--dd-red); margin-bottom: 4px; }
+    .review-item .rq-correct { font-size: .85rem; color: var(--dd-green); margin-bottom: 8px; }
+    .review-item .rq-explain { font-size: .83rem; color: var(--muted); line-height: 1.6; white-space: pre-wrap; }
+
+    /* Lista */
+    .search-bar { padding: 16px 0 12px; }
     .search-bar input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: .95rem;
-      outline: none;
+      width: 100%; padding: 12px 16px; border: 1px solid var(--border);
+      border-radius: 10px; font-size: .93rem; outline: none;
     }
     .search-bar input:focus { border-color: var(--dd-purple); }
-
     .question-list { display: flex; flex-direction: column; gap: 10px; }
     .q-item {
-      background: var(--card);
-      border-radius: 10px;
-      padding: 16px 20px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      box-shadow: 0 1px 3px rgba(0,0,0,.07);
-      transition: all .15s;
+      background: var(--card); border-radius: 10px; padding: 16px 20px;
+      cursor: pointer; border: 2px solid transparent;
+      box-shadow: 0 1px 3px rgba(0,0,0,.07); transition: all .15s;
     }
     .q-item:hover { border-color: var(--dd-purple); }
     .q-item.expanded { border-color: var(--dd-purple); }
     .q-item-header { display: flex; gap: 12px; align-items: flex-start; }
     .q-num {
-      background: var(--dd-purple);
-      color: #fff;
-      border-radius: 6px;
-      padding: 2px 8px;
-      font-size: .78rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 2px;
+      background: var(--dd-purple); color: #fff; border-radius: 6px;
+      padding: 2px 8px; font-size: .76rem; font-weight: 700; flex-shrink: 0; margin-top: 2px;
     }
-    .q-text { font-size: .95rem; font-weight: 500; line-height: 1.5; }
+    .q-text-small { font-size: .93rem; font-weight: 500; line-height: 1.5; }
     .q-answer {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid var(--border);
-      font-size: .9rem;
-      line-height: 1.7;
-      color: var(--text);
-      display: none;
-      white-space: pre-wrap;
+      margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+      font-size: .88rem; line-height: 1.7; color: var(--text); display: none; white-space: pre-wrap;
     }
     .q-answer.show { display: block; }
+    .q-opts { margin-top: 10px; font-size: .85rem; color: var(--muted); display: none; }
+    .q-opts.show { display: block; }
+    .q-opt-line { padding: 2px 0; }
+    .q-opt-line.correct-opt { color: var(--dd-green); font-weight: 600; }
 
-    /* Responsive */
     @media (max-width: 600px) {
       header h1 { font-size: 1rem; }
-      nav button { padding: 8px 14px; font-size: .85rem; }
-      .flashcard { padding: 24px 18px; }
+      nav button { padding: 8px 12px; font-size: .82rem; }
+      .q-card { padding: 22px 16px; }
+      .q-text { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 
 <header>
-  <!-- Datadog dog icon SVG simplified -->
-  <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-    <rect width="36" height="36" rx="8" fill="white" fill-opacity=".15"/>
-    <text x="6" y="26" font-size="22">🐶</text>
+  <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+    <rect width="34" height="34" rx="8" fill="white" fill-opacity=".15"/>
+    <text x="5" y="25" font-size="21">🐶</text>
   </svg>
   <div>
     <h1>Simulado Datadog Foundations <span>Certificação</span></h1>
@@ -394,97 +253,78 @@
   <button class="active" onclick="switchTab('home')">Início</button>
   <button onclick="switchTab('flashcards')">Flashcards</button>
   <button onclick="switchTab('simulado')">Simulado</button>
-  <button onclick="switchTab('lista')">Todas as Questões</button>
+  <button onclick="switchTab('lista')">Banco de Questões</button>
 </nav>
 
 <main>
 
-  <!-- ═══════════ HOME ═══════════ -->
+  <!-- HOME -->
   <section id="screen-home" class="screen active">
     <div class="home-grid">
       <div class="mode-card" onclick="switchTab('flashcards')">
         <div class="icon">🗂️</div>
         <h2>Flashcards</h2>
-        <p>Estude cada questão no seu ritmo. Veja a resposta quando quiser e marque se acertou ou errou.</p>
+        <p>Estude questão por questão. Escolha a alternativa e veja a explicação imediatamente.</p>
       </div>
       <div class="mode-card" onclick="switchTab('simulado')">
         <div class="icon">⏱️</div>
         <h2>Simulado</h2>
-        <p>Simule a prova com tempo limite. Revele as respostas e avalie seu desempenho ao final.</p>
+        <p>Prova cronometrada com múltipla escolha, correção automática e revisão de erros ao final.</p>
       </div>
       <div class="mode-card" onclick="switchTab('lista')">
         <div class="icon">📋</div>
         <h2>Banco de Questões</h2>
-        <p>Veja todas as questões e respostas de uma vez. Ideal para revisão rápida antes da prova.</p>
+        <p>Consulte todas as questões e respostas. Ideal para revisão rápida antes da prova.</p>
       </div>
     </div>
-
     <div class="stats-bar">
-      <div class="stat">
-        <div class="val" id="stat-total">61</div>
-        <div class="lbl">Total de Questões</div>
-      </div>
-      <div class="stat">
-        <div class="val" id="stat-studied">0</div>
-        <div class="lbl">Estudadas</div>
-      </div>
-      <div class="stat">
-        <div class="val" id="stat-correct">0</div>
-        <div class="lbl">Acertos (flashcards)</div>
-      </div>
-      <div class="stat">
-        <div class="val" id="stat-sims">0</div>
-        <div class="lbl">Simulados Feitos</div>
-      </div>
-      <div style="margin-left:auto; align-self:center;">
+      <div class="stat"><div class="val">61</div><div class="lbl">Total de Questões</div></div>
+      <div class="stat"><div class="val" id="stat-studied">0</div><div class="lbl">Estudadas</div></div>
+      <div class="stat"><div class="val" id="stat-correct">0</div><div class="lbl">Acertos</div></div>
+      <div class="stat"><div class="val" id="stat-sims">0</div><div class="lbl">Simulados Feitos</div></div>
+      <div style="margin-left:auto;align-self:center;">
         <button class="btn btn-outline btn-sm" onclick="resetStats()">Resetar estatísticas</button>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ FLASHCARDS ═══════════ -->
+  <!-- FLASHCARDS -->
   <section id="screen-flashcards" class="screen">
-    <div class="flashcard-controls">
-      <label for="fc-shuffle">Embaralhar</label>
-      <input type="checkbox" id="fc-shuffle" onchange="initFlashcards()" />
-      <button class="btn btn-outline btn-sm" onclick="initFlashcards()">Reiniciar baralho</button>
-      <div class="progress-text" id="fc-progress">Questão 1 / 61</div>
+    <div class="fc-controls">
+      <label><input type="checkbox" id="fc-shuffle" onchange="initFlashcards()" style="accent-color:var(--dd-purple);margin-right:6px">Embaralhar</label>
+      <button class="btn btn-outline btn-sm" onclick="initFlashcards()">Reiniciar</button>
+      <div class="fc-score" id="fc-score-text"></div>
     </div>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="fc-progress-bar" style="width:0%"></div>
     </div>
 
-    <div class="flashcard" id="fc-card">
-      <div class="question-badge">
-        <span>❓</span>
-        <span id="fc-id">Q1</span>
+    <div class="q-card" id="fc-card">
+      <div class="q-meta">
+        <span class="q-badge" id="fc-badge">Q1</span>
+        <span class="q-counter" id="fc-counter">Questão 1 / 61</span>
       </div>
-      <div class="question-text" id="fc-question">Carregando...</div>
-      <div class="answer-box" id="fc-answer-box">
-        <div class="answer-label">✅ Resposta</div>
-        <div class="answer-text" id="fc-answer"></div>
-      </div>
-      <div class="card-actions">
-        <button class="btn btn-primary" id="fc-reveal-btn" onclick="revealFlashcard()">Ver Resposta</button>
-        <button class="btn btn-success" id="fc-ok-btn" onclick="rateFlashcard(true)" style="display:none">✓ Sabia</button>
-        <button class="btn btn-danger" id="fc-nok-btn" onclick="rateFlashcard(false)" style="display:none">✗ Não sabia</button>
+      <div class="q-text" id="fc-question">Carregando...</div>
+      <div class="options" id="fc-options"></div>
+      <div class="explanation" id="fc-explanation">
+        <div class="explanation-label">Explicação</div>
+        <div id="fc-explain-text"></div>
       </div>
     </div>
 
-    <div class="nav-arrows">
+    <div class="card-nav">
       <button class="btn btn-outline" onclick="fcNav(-1)">← Anterior</button>
-      <div class="center">
-        <span id="fc-score-text" style="font-size:.85rem;color:var(--muted)"></span>
-      </div>
+      <span class="center" id="fc-nav-hint">Selecione uma alternativa</span>
       <button class="btn btn-outline" onclick="fcNav(1)">Próxima →</button>
     </div>
   </section>
 
-  <!-- ═══════════ SIMULADO ═══════════ -->
+  <!-- SIMULADO -->
   <section id="screen-simulado" class="screen">
+
     <!-- Config -->
-    <div id="sim-config-panel" class="simulado-config">
-      <h2>Configurar Simulado</h2>
+    <div id="sim-config-panel" class="sim-config">
+      <h2>⚙️ Configurar Simulado</h2>
       <div class="config-row">
         <label>Número de questões</label>
         <input type="number" id="sim-qty" value="20" min="5" max="61" />
@@ -503,40 +343,33 @@
       <button class="btn btn-primary" style="margin-top:8px" onclick="startSimulado()">Iniciar Simulado</button>
     </div>
 
-    <!-- Active simulado -->
-    <div id="sim-active-panel" class="simulado-active" style="display:none">
+    <!-- Active -->
+    <div id="sim-active-panel" style="display:none;padding-top:16px">
       <div class="sim-header">
-        <div>
-          <span id="sim-q-counter" style="font-weight:600"></span>
-          <span style="color:var(--muted);margin-left:8px;font-size:.85rem">questões</span>
-        </div>
-        <div class="sim-timer" id="sim-timer">00:00</div>
+        <div style="font-weight:600" id="sim-q-counter">1 / 20</div>
+        <div class="sim-timer" id="sim-timer">30:00</div>
         <button class="btn btn-outline btn-sm" onclick="endSimulado()">Encerrar</button>
       </div>
       <div class="progress-bar-wrap" style="margin-bottom:16px">
         <div class="progress-bar-fill" id="sim-progress-bar" style="width:0%"></div>
       </div>
 
-      <div class="flashcard" id="sim-card">
-        <div class="question-badge">
-          <span>❓</span>
-          <span id="sim-q-id">Q1</span>
+      <div class="q-card" id="sim-card">
+        <div class="q-meta">
+          <span class="q-badge" id="sim-q-badge">Q1</span>
+          <span class="q-counter" id="sim-q-label"></span>
         </div>
-        <div class="question-text" id="sim-question">...</div>
-        <div class="answer-box" id="sim-answer-box">
-          <div class="answer-label">✅ Resposta</div>
-          <div class="answer-text" id="sim-answer"></div>
-        </div>
-        <div class="card-actions reveal-answer-btn">
-          <button class="btn btn-primary" id="sim-reveal-btn" onclick="revealSimAnswer()">Ver Resposta</button>
-          <button class="btn btn-success" id="sim-ok-btn" onclick="rateSimAnswer(true)" style="display:none">✓ Sabia</button>
-          <button class="btn btn-danger" id="sim-nok-btn" onclick="rateSimAnswer(false)" style="display:none">✗ Não sabia</button>
+        <div class="q-text" id="sim-question">...</div>
+        <div class="options" id="sim-options"></div>
+        <div class="explanation" id="sim-explanation">
+          <div class="explanation-label">Explicação</div>
+          <div id="sim-explain-text"></div>
         </div>
       </div>
 
-      <div class="nav-arrows" style="margin-top:16px">
+      <div class="card-nav" style="margin-top:16px">
         <button class="btn btn-outline" onclick="simNav(-1)">← Anterior</button>
-        <span id="sim-score-live" style="font-size:.85rem;color:var(--muted)"></span>
+        <span class="center" id="sim-score-live"></span>
         <button class="btn btn-outline" onclick="simNav(1)">Próxima →</button>
       </div>
     </div>
@@ -546,36 +379,26 @@
       <div class="result-card">
         <div class="result-score" id="res-pct">0%</div>
         <div class="result-label">de acerto no simulado</div>
+        <div id="res-badge" class="result-badge badge-fail"></div>
         <div class="result-grid">
-          <div class="stat">
-            <div class="val" id="res-correct">0</div>
-            <div class="lbl">Acertos</div>
-          </div>
-          <div class="stat">
-            <div class="val" id="res-wrong">0</div>
-            <div class="lbl">Erros</div>
-          </div>
-          <div class="stat">
-            <div class="val" id="res-skipped">0</div>
-            <div class="lbl">Puladas</div>
-          </div>
-          <div class="stat">
-            <div class="val" id="res-time">--</div>
-            <div class="lbl">Tempo usado</div>
-          </div>
+          <div class="stat"><div class="val" id="res-correct">0</div><div class="lbl">Acertos</div></div>
+          <div class="stat"><div class="val" id="res-wrong">0</div><div class="lbl">Erros</div></div>
+          <div class="stat"><div class="val" id="res-skipped">0</div><div class="lbl">Não respondidas</div></div>
+          <div class="stat"><div class="val" id="res-time">--</div><div class="lbl">Tempo usado</div></div>
         </div>
         <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
           <button class="btn btn-primary" onclick="showSimConfig()">Novo Simulado</button>
-          <button class="btn btn-outline" onclick="switchTab('lista')">Ver todas as questões</button>
+          <button class="btn btn-outline" onclick="switchTab('lista')">Ver banco de questões</button>
         </div>
       </div>
+      <div class="review-section" id="review-section"></div>
     </div>
   </section>
 
-  <!-- ═══════════ LISTA ═══════════ -->
+  <!-- LISTA -->
   <section id="screen-lista" class="screen">
     <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Buscar questão ou resposta..." oninput="filterList()" />
+      <input type="text" id="search-input" placeholder="Buscar questão, alternativa ou resposta..." oninput="filterList()" />
     </div>
     <div class="question-list" id="question-list"></div>
   </section>
@@ -583,114 +406,306 @@
 </main>
 
 <script>
-// ─────────────────────────────────────────────
-// DATA
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
+// DATA — cada questão tem: id, q, options[], correct (0-3), a
+// ────────────────────────────────────────────────────────
 const QUESTIONS = [
-  {id:1, q:"Como o Datadog coleta métricas de integrações de provedores cloud (AWS, Azure, GCP)?", a:'Datadog faz o "pull" — consulta a API do provedor e busca as métricas.'},
-  {id:2, q:"Quais endereços estão na mesma rede? (192.168.1.*, 192.168.2.*)", a:"Os três 192.168.1.* pertencem à rede-pai 192.168.1.0/24."},
-  {id:3, q:"Qual é a sintaxe DogStatsD para uso de disco de um host específico com rollup de 1 hora?", a:"sum:system.disk.in_use{host:<host>} rollup(avg,3600)"},
-  {id:4, q:"Variável Docker para habilitar logs no Agent", a:"DD_LOGS_ENABLED=true (+ opcional DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true)."},
-  {id:5, q:'Widget para comparar métrica "semana × semana anterior"', a:"Timeseries com Time Comparison → Previous week."},
-  {id:6, q:"O que faz o comando datadog-agent diagnose?", a:"Executa testes de saúde (rede, API Key, permissões) → PASS/FAIL."},
-  {id:7, q:"Como ver métricas & tags que uma integração envia?", a:"datadog-agent check <integração>"},
-  {id:8, q:"Sintaxe da mensagem de recovery num Monitor", a:"{{#is_recovery}}…{{/is_recovery}}"},
-  {id:9, q:"Frequência com que o Agent envia metadata/config", a:"10 minutos"},
-  {id:10, q:"Por que o DogStatsD usa UDP em vez de TCP?", a:"Menor overhead / latência (fire-and-forget)."},
-  {id:11, q:"Para que serve a porta 5002 no Agent?", a:"GUI local (interface web) do Agent."},
-  {id:12, q:"Gráfico ideal para uso de CPU de mais de 1000 hosts", a:"Heat Map (gráfico de calor)."},
-  {id:13, q:"Integrações API PagerDuty / Slack: qual é a finalidade delas no Datadog?", a:"Enviar alertas/notificações; não coletar métricas."},
-  {id:14, q:"Qual é a finalidade da API Key no Datadog?", a:"Identifica e autoriza chamadas à API (não é chave de criptografia)."},
-  {id:15, q:"Permissão mínima para listar dashboards via API", a:"Dashboards Read (dashboards_read)."},
-  {id:16, q:"Limite padrão de API Keys por conta", a:"50 (pode ser ampliado via suporte)."},
-  {id:17, q:"A métrica system.cpu.system mede o quê?", a:"Tempo de CPU em modo kernel (sistema)."},
-  {id:18, q:"Quais linguagens possuem instrumentação nativa no Datadog? (Ruby/Go × JS/C++)", a:"Ruby & Go."},
-  {id:19, q:"Existe integração nativa do Datadog com Rust?", a:"Não; usar OpenTelemetry ou libs de terceiros."},
-  {id:20, q:"Agent instalado mas sem métricas — qual é o primeiro passo de diagnóstico?", a:"Analisar os logs do Agent."},
-  {id:21, q:"Como definir versão específica do Nginx (1.21.1) num Docker Compose?", a:"Definir image: nginx:1.21.1."},
-  {id:22, q:"Variável de Auto-Discovery para a porta mais alta", a:"%port_1%"},
-  {id:23, q:"Check Python customizado: quais diretórios usar e como configurar intervalo de 2 min?", a:"Linux: script em /etc/datadog-agent/checks.d/, conf em /etc/datadog-agent/conf.d/<nome>.d/conf.yaml com min_collection_interval: 120.\nWindows: caminhos equivalentes em C:\\ProgramData\\Datadog\\…."},
-  {id:24, q:"Como o Agent define o hostname numa EC2?", a:"Usa automaticamente o ID/nome da instância via AWS metadata."},
-  {id:25, q:"Qual metadado é mais completo para análise de causa-raiz: tag, trace ou métrica?", a:"Tracing (rastreamentos)."},
-  {id:26, q:"O que acontece ao enviar uma métrica com valor textual via API?", a:"400 Bad Request."},
-  {id:27, q:"Estrutura de pastas para integrações & checks (Linux/Win)", a:"Configs: conf.d/<integração>.d/\nScripts: checks.d/"},
-  {id:28, q:"O que fazem os checks customizados no Datadog?", a:"Executam Python no Agent para coletar métricas/eventos extras."},
-  {id:29, q:"Como coletar logs de containers Docker no Datadog?", a:"Rodar Agent com DD_LOGS_ENABLED=true (e/ou usar Auto-Discovery)."},
-  {id:30, q:"Ao revogar um usuário, qual chave é desabilitada?", a:"Apenas as Application Keys do usuário; API Key permanece válida."},
-  {id:31, q:"O que é um flare no contexto do Datadog Agent?", a:"Arquivo tar.gz com logs + configs para o suporte Datadog; já pode abrir o ticket para o suporte."},
-  {id:32, q:"Qual comando gera um flare no Datadog Agent?", a:"datadog-agent flare / agent.exe flare."},
-  {id:33, q:"Qual é o protocolo padrão do DogStatsD?", a:"UDP (padrão) / UDS opcional."},
-  {id:34, q:"Qual é a vantagem do DogStatsD?", a:"Baixo overhead, agrega localmente, suporta tags."},
-  {id:35, q:"O que o DogStatsD faz com as métricas recebidas?", a:"Recebe métricas do app, agrega em 10 s e envia ao backend."},
-  {id:36, q:"Qual é o intervalo de flush do DogStatsD?", a:"10 segundos."},
-  {id:37, q:"Qual campo alterar para aumentar o limite de coleta de arquivos de logs no Datadog Agent?", a:"logs_config.open_files_limit em datadog.yaml (ou env DD_LOGS_CONFIG_OPEN_FILES_LIMIT).\n\nExemplo:\n  logs_config:\n    open_files_limit: 500"},
-  {id:38, q:"Regra correta para tag customizada (deve iniciar com letra, terminar com ':', sem '-')?", a:"A tag deve iniciar com letra."},
-  {id:39, q:"Forma correta de declarar a tag 'teams' dentro do datadog.yaml", a:"teams:infra (formato chave:valor)."},
-  {id:40, q:"Separador correto ao habilitar logs — YAML vs. variável de ambiente", a:"YAML → logs_enabled: true (dois-pontos).\nEnv/Compose/K8s → DD_LOGS_ENABLED=true (igual)."},
-  {id:41, q:"Palavra-chave para agrupar/filtrar por tag em query no Datadog (by ou not in)?", a:"by"},
-  {id:42, q:"Qual é o resultado de -avg:system.cpu.system{host:valor} by {host}?", a:"Um timeseries para cada host correspondente, contendo a média de system.cpu.system multiplicada por –1 (prefixo '-' inverte o sinal). Exibe a média de CPU em modo kernel por host, mas como valores negativos."},
-  {id:43, q:"Quais são os principais comandos do Datadog Agent no Linux?", a:"Start:    sudo systemctl start datadog-agent\nStop:     sudo systemctl stop datadog-agent\nRestart:  sudo systemctl restart datadog-agent\nStatus:   sudo systemctl status datadog-agent\nStatus página: sudo datadog-agent status\nFlare:    sudo datadog-agent flare\nHelp:     sudo datadog-agent --help\nRun check: sudo -u dd-agent -- datadog-agent check <CHECK_NAME>"},
-  {id:44, q:"Quando uma conta de usuário do Datadog é desativada, o que acontece com as API Keys e App Keys criadas por essa conta?", a:"As API Keys criadas pela conta desativada permanecem válidas.\nAs App Keys (Application Keys) criadas pela conta desativada são revogadas."},
-  {id:45, q:"Como declarar o tageamento no arquivo datadog.yaml?", a:"env:prod\n(formato chave:valor, uma tag por linha)"},
-  {id:46, q:"Quando finaliza a instalação do agente e ele não se comunica com o SaaS Datadog, qual é a primeira verificação a ser feita?", a:"Verificar o log do Agent."},
-  {id:47, q:"Ao fazer alterações no arquivo datadog.yaml, quando elas são aplicadas?", a:"O Datadog Agent deve ser reiniciado para aplicar as alterações feitas no arquivo datadog.yaml."},
-  {id:48, q:"O que são métricas personalizadas (custom metrics) no Datadog?", a:"Qualquer métrica enviada usando o DogStatsD ou uma verificação personalizada do Agent é considerada uma métrica personalizada."},
-  {id:49, q:"O agente em um host Ubuntu foi parado para edição e precisa ser iniciado novamente. Qual comando usar?", a:"sudo service datadog-agent restart"},
-  {id:50, q:"Qual das seguintes opções é uma ferramenta de implantação compatível com Datadog? (Ansible, Terraform, Chef, Puppet)", a:"Ansible (e também Terraform, Chef, Puppet — todas são ferramentas de implantação compatíveis)."},
-  {id:51, q:"O gráfico da métrica system.load.1 restrito a um host indica que ele roda Linux ou Windows?", a:"O host está executando Linux (system.load.1 não existe no Windows)."},
-  {id:52, q:"O que a métrica system.cpu.system representa?", a:"A porcentagem de tempo que a CPU gastou executando o kernel."},
-  {id:53, q:"Após fazer alterações no datadog.yaml com o Agent em execução, quando as mudanças são aplicadas?", a:"Na próxima vez que o Agent iniciar (reinício necessário)."},
-  {id:54, q:"Qual é o propósito do arquivo auto_conf.yaml em um diretório conf.d de integração?", a:"Fornece configuração padrão para Auto-Discovery, permitindo que o Agent detecte automaticamente containers e aplique a configuração de integração sem intervenção manual."},
-  {id:55, q:"Para um Datadog Agent em execução, qual é o método definitivo para determinar seus valores de configuração padrão?", a:"Examinar o arquivo original datadog.yaml."},
-  {id:56, q:"Uma vez que uma integração é habilitada/configurada, como os Dashboards prontos ficam disponíveis?", a:"São clonados e usados como modelos (templates)."},
-  {id:57, q:"O que os checks customizados fazem no Datadog?", a:"Coletam métricas e outros dados de sistemas ou aplicativos personalizados e enviam ao Datadog."},
-  {id:58, q:"Para realizar a coleta de um check a cada 2 minutos, qual deve ser a configuração do campo de intervalo?", a:"120 no campo min_collection_interval: 120"},
-  {id:59, q:"Qual comando Linux mostra o nome do host?", a:"cat /etc/hostname"},
-  {id:60, q:"Qual comando Linux mostra a versão do sistema operacional?", a:"cat /etc/os-release"},
-  {id:61, q:"Qual comando Datadog executa testes de saúde (rede, API Key, permissões) → PASS/FAIL?", a:"datadog-agent diagnose"},
+  {id:1, q:"Como o Datadog coleta métricas de integrações de provedores cloud (AWS, Azure, GCP)?",
+   options:["Faz push — o provedor envia métricas diretamente ao Agent","Faz pull — consulta a API do provedor e busca as métricas","Usa um Agent instalado dentro do provedor cloud","Requer configuração manual de webhooks no provedor"],
+   correct:1, a:"Datadog faz o \"pull\" — consulta a API do provedor e busca as métricas. Não é necessário instalar Agent no provedor."},
+
+  {id:2, q:"Quais endereços IP estão na mesma sub-rede /24?",
+   options:["192.168.1.10 e 192.168.2.10 estão na mesma rede","Todos os 192.168.x.x pertencem à mesma rede","Os endereços 192.168.1.* pertencem à rede 192.168.1.0/24","192.168.1.254 e 192.168.2.1 estão na mesma rede"],
+   correct:2, a:"Uma sub-rede /24 cobre os 256 endereços do último octeto. Portanto 192.168.1.* pertence à 192.168.1.0/24, enquanto 192.168.2.* pertence à rede diferente 192.168.2.0/24."},
+
+  {id:3, q:"Qual é a sintaxe correta de query para uso de disco de um host específico com rollup de 1 hora?",
+   options:["avg:system.disk.in_use{host:meuhost} rollup(sum,3600)","sum:system.disk.in_use{host:meuhost} rollup(avg,3600)","system.disk.in_use{host:meuhost}.rollup(avg,1h)","max:system.disk.in_use{host:meuhost} rollup(1h)"],
+   correct:1, a:"sum:system.disk.in_use{host:<host>} rollup(avg,3600) — o agregador 'sum' combina os dados e rollup(avg,3600) calcula a média em janelas de 1 hora."},
+
+  {id:4, q:"Qual variável de ambiente Docker deve ser definida para habilitar a coleta de logs no Datadog Agent?",
+   options:["DD_AGENT_LOGS=true","DD_ENABLE_LOGGING=true","DD_LOGS_ENABLED=true","DD_LOG_COLLECTION=true"],
+   correct:2, a:"DD_LOGS_ENABLED=true habilita a coleta de logs no Agent. Opcionalmente, DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true coleta logs de todos os containers automaticamente."},
+
+  {id:5, q:"Qual widget do Datadog é mais adequado para comparar uma métrica com a semana anterior?",
+   options:["Heatmap com Compare Period","Top List com filtro de período","Timeseries com Time Comparison → Previous week","Change widget com período de 7 dias"],
+   correct:2, a:"O widget Timeseries com a opção Time Comparison → Previous week exibe a série atual e a da semana anterior sobrepostas para comparação visual."},
+
+  {id:6, q:"O que faz o comando 'datadog-agent diagnose'?",
+   options:["Reinicia o serviço do Agent","Gera um flare para o suporte Datadog","Executa testes de saúde (rede, API Key, permissões) retornando PASS/FAIL","Exibe as métricas coletadas em tempo real"],
+   correct:2, a:"O comando 'datadog-agent diagnose' executa uma série de testes de conectividade e configuração, exibindo PASS ou FAIL para cada verificação."},
+
+  {id:7, q:"Como verificar quais métricas e tags uma integração específica está enviando?",
+   options:["datadog-agent status","datadog-agent check <integração>","datadog-agent diagnose","datadog-agent flare"],
+   correct:1, a:"'datadog-agent check <integração>' executa o check e exibe todas as métricas, eventos e tags coletados por aquela integração."},
+
+  {id:8, q:"Qual é a sintaxe correta para exibir uma mensagem apenas durante a recuperação de um Monitor?",
+   options:["{{#is_alert}}…{{/is_alert}}","{{#is_warning}}…{{/is_warning}}","{{#is_recovery}}…{{/is_recovery}}","{{#is_resolved}}…{{/is_resolved}}"],
+   correct:2, a:"{{#is_recovery}}…{{/is_recovery}} é o bloco condicional do Datadog que só é renderizado quando o monitor sai do estado de alerta e retorna ao normal."},
+
+  {id:9, q:"Com que frequência o Datadog Agent envia metadata e informações de configuração ao backend?",
+   options:["A cada 1 minuto","A cada 5 minutos","A cada 10 minutos","A cada 30 minutos"],
+   correct:2, a:"O Agent envia metadata (hostname, tags, configurações) ao backend Datadog a cada 10 minutos."},
+
+  {id:10, q:"Por que o DogStatsD usa UDP em vez de TCP por padrão?",
+   options:["TCP não suporta o envio de tags junto às métricas","UDP oferece criptografia automática dos dados","Menor overhead e latência — fire-and-forget sem handshake","UDP permite compressão automática dos pacotes"],
+   correct:2, a:"UDP tem menor overhead pois não exige estabelecimento de conexão (handshake) nem confirmação de entrega. Isso é ideal para métricas de alta frequência onde perder um pacote ocasional é aceitável."},
+
+  {id:11, q:"Para que serve a porta 5002 do Datadog Agent?",
+   options:["Comunicação com o backend Datadog (443)","Recepção de métricas DogStatsD (8125)","Interface web (GUI local) do Agent","Comunicação entre integrações externas"],
+   correct:2, a:"A porta 5002 expõe a GUI local do Agent — uma interface web acessível em http://localhost:5002 para visualizar o status e a configuração do Agent."},
+
+  {id:12, q:"Qual tipo de gráfico é mais adequado para visualizar o uso de CPU de mais de 1000 hosts simultaneamente?",
+   options:["Timeseries com todas as séries sobrepostas","Top List ordenado por uso","Scatter plot comparativo","Heat Map (gráfico de calor)"],
+   correct:3, a:"O Heat Map agrupa e coloriza valores de muitos hosts em uma grade compacta, sendo ideal para grandes volumes de séries onde um Timeseries seria ilegível."},
+
+  {id:13, q:"Qual é a finalidade das integrações do Datadog com PagerDuty e Slack?",
+   options:["Coletar métricas de incidentes e canais","Monitorar a disponibilidade dos serviços externos","Enviar alertas e notificações; não coletar métricas","Correlacionar logs com alertas automaticamente"],
+   correct:2, a:"As integrações com PagerDuty e Slack são integrações de notificação — servem para enviar alertas quando um Monitor dispara, não para coletar métricas desses serviços."},
+
+  {id:14, q:"Qual é a finalidade principal de uma API Key no Datadog?",
+   options:["Criptografar dados em trânsito entre Agent e backend","Autenticar usuários no dashboard web","Identificar e autorizar chamadas à API Datadog","Gerar tokens de sessão temporários para usuários"],
+   correct:2, a:"A API Key identifica a conta/organização e autoriza o envio de dados (métricas, logs, traces) à API do Datadog. Ela não é usada para criptografia nem para autenticação de usuários."},
+
+  {id:15, q:"Qual é a permissão mínima necessária para listar dashboards via API do Datadog?",
+   options:["Admin","Standard","Read Only","Dashboards Read (dashboards_read)"],
+   correct:3, a:"A permission 'dashboards_read' é a permissão mínima granular para operações de leitura em dashboards via API, seguindo o princípio do menor privilégio."},
+
+  {id:16, q:"Qual é o limite padrão de API Keys por conta no Datadog?",
+   options:["10","25","50","100"],
+   correct:2, a:"O limite padrão é 50 API Keys por conta. Este limite pode ser ampliado mediante solicitação ao suporte Datadog."},
+
+  {id:17, q:"O que a métrica 'system.cpu.system' mede?",
+   options:["Tempo de CPU consumido por processos em modo usuário","Porcentagem total de CPU utilizada","Tempo de CPU gasto executando código do kernel (modo sistema)","Tempo de CPU em estado idle"],
+   correct:2, a:"'system.cpu.system' mede a porcentagem de tempo que a CPU passou executando código do kernel (system calls, drivers, etc.), diferente do modo usuário (user space)."},
+
+  {id:18, q:"Quais linguagens possuem bibliotecas de instrumentação nativas (oficiais) mantidas pelo Datadog?",
+   options:["JavaScript e Python","Ruby e Go","C++ e Rust","Java e PHP"],
+   correct:1, a:"Ruby e Go possuem bibliotecas de instrumentação oficialmente mantidas pelo Datadog. Linguagens como C++ e Rust não possuem suporte nativo oficial."},
+
+  {id:19, q:"O Datadog possui integração de rastreamento (tracing) nativa para aplicações Rust?",
+   options:["Sim, via biblioteca oficial dd-trace-rust","Sim, via plugin do Datadog Agent","Não — recomenda-se usar OpenTelemetry ou bibliotecas de terceiros","Sim, via DogStatsD com suporte a traces"],
+   correct:2, a:"Não existe biblioteca oficial de tracing do Datadog para Rust. A alternativa recomendada é usar o SDK do OpenTelemetry para Rust com o exportador Datadog."},
+
+  {id:20, q:"O Datadog Agent foi instalado com sucesso mas nenhuma métrica aparece. Qual deve ser o primeiro passo de diagnóstico?",
+   options:["Reinstalar o Agent completamente","Verificar as regras de firewall e portas","Analisar os logs do Agent","Checar a API Key no painel web do Datadog"],
+   correct:2, a:"Os logs do Agent são a primeira fonte de diagnóstico — eles revelam erros de conexão, problemas de permissão, API Key inválida e outros falhas de inicialização."},
+
+  {id:21, q:"Como fixar a versão do Nginx em 1.21.1 em um serviço Docker Compose?",
+   options:["version: nginx==1.21.1","container_name: nginx:1.21.1","image: nginx:1.21.1","tag: nginx-1.21.1"],
+   correct:2, a:"No Docker Compose, a versão da imagem é especificada com 'image: nginx:1.21.1'. O formato é <repositório>:<tag>."},
+
+  {id:22, q:"Qual variável de template do Auto-Discovery faz referência à porta de número mais alto de um container?",
+   options:["%port_0%","%port_last%","%port_max%","%port_1%"],
+   correct:3, a:"%port_1% referencia a porta de maior número exposta pelo container (índice 1 = última porta em ordem crescente). %port_0% referencia a porta de menor número."},
+
+  {id:23, q:"Onde deve ser salvo o script de um check customizado Python no Linux?",
+   options:["/etc/datadog-agent/plugins/","/etc/datadog-agent/checks.d/","/usr/local/datadog/checks/","/var/lib/datadog/checks.d/"],
+   correct:1, a:"Scripts de checks customizados ficam em /etc/datadog-agent/checks.d/<nome>.py e as configurações em /etc/datadog-agent/conf.d/<nome>.d/conf.yaml."},
+
+  {id:24, q:"Como o Datadog Agent determina o hostname de uma instância EC2 da AWS?",
+   options:["Usa o endereço IP privado da instância","Usa o valor definido manualmente no datadog.yaml","Usa automaticamente o Instance ID ou nome via AWS Instance Metadata Service","Usa o DNS reverso do IP privado"],
+   correct:2, a:"Em instâncias EC2, o Agent consulta o AWS Instance Metadata Service (IMDS) para obter o Instance ID ou o nome da instância, usando-o como hostname automaticamente."},
+
+  {id:25, q:"Qual tipo de dado do Datadog fornece informações mais completas para análise de causa-raiz de um problema?",
+   options:["Tags de infraestrutura","Métricas de sistema","Logs de aplicação","Traces (rastreamentos distribuídos)"],
+   correct:3, a:"Os traces fornecem o contexto mais completo: mostram o caminho exato de uma requisição entre serviços, identificando onde ocorreu a lentidão ou falha, correlacionando com logs e métricas."},
+
+  {id:26, q:"O que acontece quando se tenta enviar uma métrica com valor textual (string) via API do Datadog?",
+   options:["200 OK com aviso no corpo da resposta","201 Created ignorando o valor inválido","400 Bad Request","500 Internal Server Error"],
+   correct:2, a:"A API do Datadog retorna 400 Bad Request quando o valor de uma métrica não é numérico, pois métricas requerem valores do tipo float/integer."},
+
+  {id:27, q:"Qual é o caminho correto dos arquivos de configuração de integrações no Linux?",
+   options:["/etc/datadog-agent/integrations/","/etc/datadog-agent/conf.d/<integração>.d/","/usr/share/datadog/conf/","/etc/datadog/plugins/"],
+   correct:1, a:"Configs ficam em /etc/datadog-agent/conf.d/<integração>.d/conf.yaml e scripts de checks customizados em /etc/datadog-agent/checks.d/."},
+
+  {id:28, q:"O que são checks customizados no Datadog e o que eles fazem?",
+   options:["São integrações de terceiros instaladas via marketplace","Coletam apenas métricas de SO do host","Scripts Python executados pelo Agent para coletar dados de sistemas não suportados nativamente","Executam scripts de remediação automaticamente"],
+   correct:2, a:"Checks customizados são scripts Python colocados em checks.d/ que o Agent executa periodicamente. Eles permitem coletar métricas, eventos e logs de qualquer sistema ou aplicação."},
+
+  {id:29, q:"Como habilitar a coleta de logs de containers Docker no Datadog?",
+   options:["Configurar rsyslog no container para redirecionar ao Agent","Usar Logstash como intermediário entre containers e Datadog","Executar o Agent com DD_LOGS_ENABLED=true (e opcionalmente Auto-Discovery)","Configurar um sidecar de logging em cada container"],
+   correct:2, a:"Definir DD_LOGS_ENABLED=true no Agent habilita a coleta de logs. Com DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true, coleta de todos os containers sem configuração individual."},
+
+  {id:30, q:"Quando uma conta de usuário é revogada/desativada no Datadog, o que acontece com suas chaves?",
+   options:["Apenas as API Keys são desabilitadas","Apenas as Application Keys do usuário são revogadas","Todas as chaves (API e Application Keys) são desabilitadas","Nenhuma chave é afetada automaticamente"],
+   correct:1, a:"Ao revogar um usuário, apenas suas Application Keys são desativadas. As API Keys permanecem válidas pois pertencem à organização, não ao usuário individualmente."},
+
+  {id:31, q:"O que é um 'flare' no contexto do Datadog Agent?",
+   options:["Um relatório de métricas exportado em CSV","Um script de diagnóstico executado remotamente pelo suporte","Um arquivo tar.gz contendo logs e configurações enviado ao suporte Datadog","Um snapshot do estado de memória do Agent"],
+   correct:2, a:"O flare é um pacote tar.gz comprimido contendo logs do Agent, configurações (com dados sensíveis mascarados) e informações de diagnóstico. É usado pelo suporte Datadog para investigar problemas."},
+
+  {id:32, q:"Qual comando gera e envia um flare do Datadog Agent?",
+   options:["datadog-agent debug","datadog-agent support","datadog-agent flare","datadog-agent export-logs"],
+   correct:2, a:"'datadog-agent flare' (Linux) ou 'agent.exe flare' (Windows) coleta os dados de diagnóstico, cria o pacote e pode enviá-lo automaticamente ao suporte se um número de ticket for fornecido."},
+
+  {id:33, q:"Qual é o protocolo padrão de comunicação do DogStatsD?",
+   options:["TCP na porta 8125","HTTP na porta 8125","UDP na porta 8125","Unix Domain Socket (UDS)"],
+   correct:2, a:"DogStatsD usa UDP na porta 8125 por padrão. O UDS é uma opção alternativa de menor latência disponível em Linux quando Agent e aplicação estão no mesmo host."},
+
+  {id:34, q:"Qual é a principal vantagem do DogStatsD em relação a outras formas de envio de métricas?",
+   options:["Garante a entrega de todas as métricas sem perda","Suporte nativo a criptografia TLS","Baixo overhead, agrega métricas localmente e suporta tags customizadas","Possui interface gráfica integrada ao Datadog Agent"],
+   correct:2, a:"DogStatsD agrega métricas no cliente antes de enviar ao Agent, tem overhead mínimo (UDP) e suporta tags customizadas. A ausência de garantia de entrega é uma troca aceitável para métricas."},
+
+  {id:35, q:"O que o DogStatsD faz com as métricas que recebe da aplicação?",
+   options:["Envia cada métrica imediatamente ao backend Datadog","Armazena em disco e envia em lotes a cada hora","Recebe do app, agrega localmente e envia ao backend a cada 10 segundos","Converte para formato Prometheus e expõe via HTTP"],
+   correct:2, a:"DogStatsD recebe métricas via UDP da aplicação, agrega-as em memória durante 10 segundos (intervalo de flush padrão) e então envia o lote ao backend Datadog."},
+
+  {id:36, q:"Qual é o intervalo de flush padrão do DogStatsD?",
+   options:["1 segundo","5 segundos","10 segundos","60 segundos"],
+   correct:2, a:"O intervalo de flush padrão do DogStatsD é 10 segundos. Durante este período, métricas do mesmo nome são agregadas (somadas, contadas, etc.) antes do envio."},
+
+  {id:37, q:"Qual campo no datadog.yaml deve ser alterado para aumentar o limite de arquivos de log coletados simultaneamente?",
+   options:["logs_config.max_files_limit","logs_config.open_files_limit","logs_config.file_collection_max","logs_config.collection_limit"],
+   correct:1, a:"O campo 'logs_config.open_files_limit' (ou a variável DD_LOGS_CONFIG_OPEN_FILES_LIMIT) controla quantos arquivos de log podem ser monitorados simultaneamente pelo Agent."},
+
+  {id:38, q:"Qual regra deve ser seguida ao nomear uma tag customizada no Datadog?",
+   options:["Pode iniciar com número ou letra","Pode iniciar com underscore (_)","Deve sempre iniciar com uma letra","Pode iniciar com qualquer caractere ASCII"],
+   correct:2, a:"Tags no Datadog devem iniciar com uma letra. Não podem começar com números, hífens ou caracteres especiais. Letras minúsculas são recomendadas."},
+
+  {id:39, q:"Qual é a forma correta de declarar a tag 'teams:infra' no arquivo datadog.yaml?",
+   options:["teams = infra","teams: \"infra\"","- teams/infra","teams:infra"],
+   correct:3, a:"Tags no datadog.yaml usam o formato chave:valor sem espaços (teams:infra), listadas sob a chave 'tags:' do arquivo YAML."},
+
+  {id:40, q:"Qual é o separador correto para habilitar logs no datadog.yaml (YAML) vs. variável de ambiente?",
+   options:["YAML: logs_enabled = true / Env: DD_LOGS_ENABLED=true","YAML: logs-enabled: true / Env: DD-LOGS-ENABLED=true","YAML: logs_enabled: true / Env: DD_LOGS_ENABLED=true","YAML: logs.enabled: true / Env: DD.LOGS.ENABLED=true"],
+   correct:2, a:"No YAML usa-se dois-pontos como separador (logs_enabled: true) e no ambiente/Docker/K8s usa-se sinal de igual (DD_LOGS_ENABLED=true)."},
+
+  {id:41, q:"Qual palavra-chave é usada em queries do Datadog para agrupar métricas por tag?",
+   options:["group","filter","by","per"],
+   correct:2, a:"A palavra-chave 'by' é usada para agrupar métricas por tag. Exemplo: avg:system.cpu.user{*} by {host} retorna uma série por host."},
+
+  {id:42, q:"Qual é o resultado da query: -avg:system.cpu.system{host:web01} by {host}?",
+   options:["Média de CPU por host com valores positivos normais","Soma acumulada de CPU por host","Timeseries por host com os valores negativos (sinal invertido pelo prefixo -)","Percentil 95 de uso de CPU por host"],
+   correct:2, a:"O prefixo '-' na query multiplica todos os valores por -1, invertendo o sinal. O resultado é um timeseries por host mostrando a média de system.cpu.system como valores negativos."},
+
+  {id:43, q:"Qual comando exibe a página de status detalhado do Datadog Agent no Linux?",
+   options:["sudo systemctl status datadog-agent","sudo datadog-agent status","sudo datadog-agent diagnose","sudo datadog-agent info"],
+   correct:1, a:"'sudo datadog-agent status' exibe a página de status completa do Agent, incluindo checks em execução, integrações ativas, erros e informações de conectividade."},
+
+  {id:44, q:"Quando uma conta de usuário do Datadog é desativada, o que acontece com as Application Keys criadas por ela?",
+   options:["API Keys e Application Keys são todas revogadas","Nada — todas as chaves permanecem válidas","As Application Keys são revogadas; API Keys da organização permanecem válidas","As API Keys são revogadas; Application Keys permanecem válidas"],
+   correct:2, a:"Ao desativar um usuário, suas Application Keys são revogadas automaticamente (pois são pessoais). As API Keys pertencem à organização e continuam válidas."},
+
+  {id:45, q:"Como declarar tags no arquivo datadog.yaml corretamente?",
+   options:["tags: [env, prod]","tags:\\n  env: prod","tags:\\n  - env:prod (formato chave:valor, uma tag por linha)","env = prod"],
+   correct:2, a:"Tags no datadog.yaml são declaradas em formato de lista YAML com o padrão chave:valor: 'tags:\\n  - env:prod\\n  - team:infra'"},
+
+  {id:46, q:"O Agent foi instalado mas não se comunica com o SaaS do Datadog. Qual é a primeira verificação recomendada?",
+   options:["Reiniciar o Agent e aguardar 5 minutos","Verificar os logs do Agent","Verificar regras de firewall e portas","Reinstalar o Agent com a API Key correta"],
+   correct:1, a:"Os logs do Agent são o primeiro lugar a verificar — eles mostram exatamente qual erro está impedindo a comunicação (API Key inválida, problema de rede, proxy, etc.)."},
+
+  {id:47, q:"Ao fazer alterações no datadog.yaml, quando elas são efetivadas?",
+   options:["Imediatamente, o Agent detecta mudanças no arquivo","Após 10 minutos, na próxima sincronização","Após reiniciar o Datadog Agent","Após executar 'datadog-agent reload'"],
+   correct:2, a:"O Datadog Agent lê o datadog.yaml apenas na inicialização. Qualquer alteração requer um reinício do serviço (systemctl restart datadog-agent) para ser aplicada."},
+
+  {id:48, q:"O que são métricas personalizadas (custom metrics) no Datadog?",
+   options:["Métricas de integrações oficiais com filtros aplicados","Métricas enviadas via DogStatsD ou checks customizados do Agent","Dashboards personalizados baseados em métricas do sistema","Métricas coletadas exclusivamente via API REST"],
+   correct:1, a:"Custom metrics são qualquer métrica enviada via DogStatsD ou verificação personalizada do Agent. Elas contam para o limite de métricas da conta e têm custo adicional acima do limite."},
+
+  {id:49, q:"O Agent em um host Ubuntu foi parado para edição do datadog.yaml. Qual comando usá-lo novamente após as edições?",
+   options:["sudo start datadog-agent","sudo systemctl start datadog-agent","sudo service datadog-agent restart","sudo datadog-agent start"],
+   correct:2, a:"'sudo service datadog-agent restart' reinicia o Agent no Ubuntu, aplicando as novas configurações do datadog.yaml. Também funciona: 'sudo systemctl restart datadog-agent'."},
+
+  {id:50, q:"Qual das ferramentas a seguir é compatível como ferramenta de implantação do Datadog Agent?",
+   options:["Vagrant","Ansible","Docker Swarm (standalone)","Kubernetes sem Helm"],
+   correct:1, a:"Ansible possui integração oficial com o Datadog. Também são suportados: Chef, Puppet, Terraform, SaltStack e outros. Todos permitem automatizar a instalação e configuração do Agent."},
+
+  {id:51, q:"Um host exibe a métrica 'system.load.1'. Isso indica que o host executa qual sistema operacional?",
+   options:["Windows Server","macOS exclusivamente","Linux (a métrica load average não existe no Windows)","FreeBSD apenas"],
+   correct:2, a:"A métrica system.load.1 (load average) é exclusiva de sistemas Unix/Linux. O Windows não possui o conceito de load average, portanto um host com essa métrica está executando Linux."},
+
+  {id:52, q:"O que a métrica 'system.cpu.system' representa?",
+   options:["Porcentagem de CPU consumida por processos em modo usuário","Porcentagem total de CPU utilizada (user + system + iowait)","Porcentagem de tempo de CPU executando código do kernel","Porcentagem de tempo de CPU em estado idle"],
+   correct:2, a:"system.cpu.system mede a porcentagem de tempo que a CPU gastou executando chamadas do kernel — operações de sistema como I/O, gerenciamento de memória e drivers."},
+
+  {id:53, q:"Após editar o datadog.yaml com o Agent em execução, quando as mudanças são aplicadas?",
+   options:["Imediatamente após salvar o arquivo","Na próxima reinicialização do Agent","Após 5 minutos, na próxima sincronização automática","Após executar 'datadog-agent reload-config'"],
+   correct:1, a:"O Agent só lê o datadog.yaml durante a inicialização. Edições no arquivo não têm efeito até que o Agent seja reiniciado (systemctl restart datadog-agent)."},
+
+  {id:54, q:"Qual é o propósito do arquivo 'auto_conf.yaml' dentro de um diretório conf.d de integração?",
+   options:["Substituir o datadog.yaml para configurações avançadas","Definir políticas de segurança para a integração","Fornecer configuração padrão para Auto-Discovery em ambientes containerizados","Armazenar credenciais criptografadas da integração"],
+   correct:2, a:"auto_conf.yaml contém a configuração padrão de Auto-Discovery da integração, permitindo que o Agent detecte automaticamente containers correspondentes e aplique a configuração sem intervenção manual."},
+
+  {id:55, q:"Qual é o método definitivo para verificar os valores de configuração padrão do Datadog Agent?",
+   options:["Executar 'datadog-agent status' e ler o output","Consultar o painel Settings no Datadog web","Examinar o arquivo datadog.yaml original (não editado)","Executar 'datadog-agent config show'"],
+   correct:2, a:"O arquivo datadog.yaml original (com todos os parâmetros comentados e seus valores padrão) é a referência definitiva para entender todas as opções de configuração disponíveis."},
+
+  {id:56, q:"Após habilitar e configurar uma integração, como os Dashboards prontos (out-of-the-box) ficam disponíveis?",
+   options:["São instalados automaticamente e ficam bloqueados para edição","São baixados do Datadog Marketplace mediante compra","São disponibilizados como templates que podem ser clonados","Precisam ser recriados manualmente a partir de exemplos"],
+   correct:2, a:"Os dashboards de integração são disponibilizados como templates (modelos). O usuário pode cloná-los para criar uma cópia editável, mantendo o original intocado."},
+
+  {id:57, q:"O que os checks customizados fazem no Datadog?",
+   options:["Substituem as integrações nativas quando não há suporte oficial","Coletam apenas métricas de sistema operacional do host","Coletam métricas e dados de sistemas ou apps personalizados e enviam ao Datadog","Executam scripts de remediação automática em resposta a alertas"],
+   correct:2, a:"Checks customizados são scripts Python executados pelo Agent que coletam métricas, eventos ou logs de qualquer sistema ou aplicação não coberta pelas integrações nativas."},
+
+  {id:58, q:"Para executar um check customizado a cada 2 minutos, qual configuração usar no conf.yaml?",
+   options:["collection_interval: 2","interval: 120s","min_collection_interval: 120","check_interval: 2m"],
+   correct:2, a:"O campo 'min_collection_interval: 120' define que o check deve ser executado no máximo uma vez a cada 120 segundos (2 minutos). O valor é sempre em segundos."},
+
+  {id:59, q:"Qual comando Linux exibe o hostname configurado do sistema?",
+   options:["hostname -f","uname -n","cat /etc/hostname","host --name"],
+   correct:2, a:"'cat /etc/hostname' exibe o hostname estático configurado no sistema. O comando 'hostname' também funciona, mas /etc/hostname contém o valor persistente."},
+
+  {id:60, q:"Qual comando Linux exibe informações detalhadas sobre a versão do sistema operacional?",
+   options:["uname -a","lsb_release -a","cat /etc/version","cat /etc/os-release"],
+   correct:3, a:"'cat /etc/os-release' exibe informações padronizadas do SO incluindo nome, versão, ID e URL de documentação. É o arquivo padrão em distribuições Linux modernas."},
+
+  {id:61, q:"Qual comando do Datadog Agent executa verificações de conectividade e configuração, retornando PASS ou FAIL?",
+   options:["datadog-agent status","datadog-agent health","datadog-agent diagnose","datadog-agent check --all"],
+   correct:2, a:"'datadog-agent diagnose' executa uma bateria de testes (conexão com backend, API Key, permissões de arquivo, integrações) e reporta PASS ou FAIL para cada item."},
 ];
 
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 // STATE
-// ─────────────────────────────────────────────
-let stats = JSON.parse(localStorage.getItem('dd_stats') || '{"studied":0,"correct":0,"sims":0}');
+// ────────────────────────────────────────────────────────
+let stats = JSON.parse(localStorage.getItem('dd_stats2') || '{"studied":0,"correct":0,"sims":0}');
 
 // Flashcard state
 let fcDeck = [];
 let fcIndex = 0;
-let fcRevealed = false;
-let fcSessionCorrect = 0;
-let fcSessionTotal = 0;
+let fcAnswered = {}; // index -> selectedOption (number)
 
 // Simulado state
 let simDeck = [];
 let simIndex = 0;
-let simAnswers = {}; // index -> true/false/null
-let simRevealed = {};
+let simAnswers = {}; // index -> selectedOption (number) or undefined
 let simTimerInterval = null;
 let simStartTime = null;
 let simDuration = 30 * 60;
 let simActive = false;
 
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
+// UTILS
+// ────────────────────────────────────────────────────────
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const LETTERS = ['A', 'B', 'C', 'D'];
+
+// ────────────────────────────────────────────────────────
 // TABS
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 function switchTab(tab) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('screen-' + tab).classList.add('active');
-  const tabs = ['home','flashcards','simulado','lista'];
+  const tabs = ['home', 'flashcards', 'simulado', 'lista'];
   document.querySelectorAll('nav button')[tabs.indexOf(tab)].classList.add('active');
-
   if (tab === 'home') updateHomeStats();
   if (tab === 'flashcards' && fcDeck.length === 0) initFlashcards();
   if (tab === 'lista') renderList();
 }
 
-// ─────────────────────────────────────────────
-// HOME STATS
-// ─────────────────────────────────────────────
-function saveStats() { localStorage.setItem('dd_stats', JSON.stringify(stats)); }
+// ────────────────────────────────────────────────────────
+// STATS
+// ────────────────────────────────────────────────────────
+function saveStats() { localStorage.setItem('dd_stats2', JSON.stringify(stats)); }
 function updateHomeStats() {
   document.getElementById('stat-studied').textContent = stats.studied;
   document.getElementById('stat-correct').textContent = stats.correct;
@@ -698,63 +713,92 @@ function updateHomeStats() {
 }
 function resetStats() {
   if (!confirm('Resetar todas as estatísticas?')) return;
-  stats = {studied:0, correct:0, sims:0};
+  stats = { studied: 0, correct: 0, sims: 0 };
   saveStats();
   updateHomeStats();
 }
 
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 // FLASHCARDS
-// ─────────────────────────────────────────────
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length-1; i>0; i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
-  }
-  return a;
-}
-
+// ────────────────────────────────────────────────────────
 function initFlashcards() {
   fcDeck = document.getElementById('fc-shuffle').checked ? shuffle(QUESTIONS) : [...QUESTIONS];
   fcIndex = 0;
-  fcSessionCorrect = 0;
-  fcSessionTotal = 0;
+  fcAnswered = {};
   renderFlashcard();
 }
 
 function renderFlashcard() {
-  fcRevealed = false;
   const q = fcDeck[fcIndex];
-  document.getElementById('fc-id').textContent = `Q${q.id}`;
+  document.getElementById('fc-badge').textContent = `Q${q.id}`;
+  document.getElementById('fc-counter').textContent = `Questão ${fcIndex + 1} / ${fcDeck.length}`;
   document.getElementById('fc-question').textContent = q.q;
-  document.getElementById('fc-answer').textContent = q.a;
-  document.getElementById('fc-answer-box').classList.remove('visible');
-  document.getElementById('fc-reveal-btn').style.display = '';
-  document.getElementById('fc-ok-btn').style.display = 'none';
-  document.getElementById('fc-nok-btn').style.display = 'none';
 
   const pct = Math.round((fcIndex / fcDeck.length) * 100);
-  document.getElementById('fc-progress').textContent = `Questão ${fcIndex+1} / ${fcDeck.length}`;
   document.getElementById('fc-progress-bar').style.width = pct + '%';
+
+  const answered = Object.keys(fcAnswered).length;
+  const correct = Object.values(fcAnswered).filter(v => fcDeck[v.idx] && v.sel === fcDeck[v.idx].correct).length;
+
+  // rebuild using index map
+  let fcCorrectCount = 0;
+  for (const [k, sel] of Object.entries(fcAnswered)) {
+    if (sel === fcDeck[parseInt(k)].correct) fcCorrectCount++;
+  }
+  const total = Object.keys(fcAnswered).length;
   document.getElementById('fc-score-text').textContent =
-    fcSessionTotal > 0 ? `✓ ${fcSessionCorrect}  ✗ ${fcSessionTotal - fcSessionCorrect}` : '';
+    total > 0 ? `✓ ${fcCorrectCount}  ✗ ${total - fcCorrectCount}  de ${total} respondidas` : '';
+
+  const selectedOpt = fcAnswered[fcIndex];
+  const revealed = selectedOpt !== undefined;
+
+  // render options
+  const container = document.getElementById('fc-options');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.disabled = revealed;
+    if (revealed) {
+      if (i === q.correct) btn.classList.add('correct');
+      else if (i === selectedOpt) btn.classList.add('wrong');
+    }
+    btn.innerHTML = `<span class="opt-letter">${LETTERS[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => selectFcOption(i));
+    container.appendChild(btn);
+  });
+
+  const explBox = document.getElementById('fc-explanation');
+  document.getElementById('fc-explain-text').textContent = q.a;
+  explBox.classList.toggle('show', revealed);
+
+  const hint = document.getElementById('fc-nav-hint');
+  if (revealed) {
+    const isCorrect = selectedOpt === q.correct;
+    hint.textContent = isCorrect ? '✓ Correto!' : '✗ Incorreto';
+    hint.style.color = isCorrect ? 'var(--dd-green)' : 'var(--dd-red)';
+  } else {
+    hint.textContent = 'Selecione uma alternativa';
+    hint.style.color = '';
+  }
 }
 
-function revealFlashcard() {
-  fcRevealed = true;
-  document.getElementById('fc-answer-box').classList.add('visible');
-  document.getElementById('fc-reveal-btn').style.display = 'none';
-  document.getElementById('fc-ok-btn').style.display = '';
-  document.getElementById('fc-nok-btn').style.display = '';
-}
+function selectFcOption(optIndex) {
+  if (fcAnswered[fcIndex] !== undefined) return;
+  const q = fcDeck[fcIndex];
+  fcAnswered[fcIndex] = optIndex;
 
-function rateFlashcard(correct) {
-  fcSessionTotal++;
-  if (correct) { fcSessionCorrect++; stats.correct++; }
+  const isCorrect = optIndex === q.correct;
   stats.studied++;
+  if (isCorrect) stats.correct++;
   saveStats();
-  fcNav(1);
+
+  renderFlashcard();
+
+  // auto advance after delay
+  if (fcIndex < fcDeck.length - 1) {
+    setTimeout(() => fcNav(1), 1200);
+  }
 }
 
 function fcNav(dir) {
@@ -762,9 +806,9 @@ function fcNav(dir) {
   renderFlashcard();
 }
 
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 // SIMULADO
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 function showSimConfig() {
   document.getElementById('sim-config-panel').style.display = '';
   document.getElementById('sim-active-panel').style.display = 'none';
@@ -781,7 +825,6 @@ function startSimulado() {
   simDeck = pool.slice(0, qty);
   simIndex = 0;
   simAnswers = {};
-  simRevealed = {};
   simDuration = mins * 60;
   simStartTime = Date.now();
   simActive = true;
@@ -798,7 +841,7 @@ function startSimulado() {
 
 function startTimer() {
   if (simTimerInterval) clearInterval(simTimerInterval);
-  simTimerInterval = setInterval(() => {
+  const update = () => {
     const elapsed = Math.floor((Date.now() - simStartTime) / 1000);
     const remaining = simDuration - elapsed;
     if (remaining <= 0) {
@@ -807,58 +850,61 @@ function startTimer() {
       showResults();
       return;
     }
-    const m = String(Math.floor(remaining/60)).padStart(2,'0');
-    const s = String(remaining%60).padStart(2,'0');
+    const m = String(Math.floor(remaining / 60)).padStart(2, '0');
+    const s = String(remaining % 60).padStart(2, '0');
     const el = document.getElementById('sim-timer');
     el.textContent = `${m}:${s}`;
     el.classList.toggle('warning', remaining <= 60);
-  }, 500);
+  };
+  update();
+  simTimerInterval = setInterval(update, 500);
 }
 
 function renderSimCard() {
   const q = simDeck[simIndex];
-  document.getElementById('sim-q-id').textContent = `Q${q.id}`;
+  document.getElementById('sim-q-badge').textContent = `Q${q.id}`;
+  document.getElementById('sim-q-label').textContent = `Questão ${simIndex + 1} de ${simDeck.length}`;
   document.getElementById('sim-question').textContent = q.q;
-  document.getElementById('sim-answer').textContent = q.a;
+  document.getElementById('sim-q-counter').textContent = `${simIndex + 1} / ${simDeck.length}`;
+  document.getElementById('sim-progress-bar').style.width = ((simIndex + 1) / simDeck.length * 100) + '%';
 
-  const revealed = simRevealed[simIndex];
-  document.getElementById('sim-answer-box').classList.toggle('visible', !!revealed);
-  document.getElementById('sim-reveal-btn').style.display = revealed ? 'none' : '';
-  document.getElementById('sim-ok-btn').style.display = revealed ? '' : 'none';
-  document.getElementById('sim-nok-btn').style.display = revealed ? '' : 'none';
+  const selectedOpt = simAnswers[simIndex];
+  const answered = selectedOpt !== undefined;
 
-  // If already rated, update button states
-  const rated = simAnswers[simIndex];
-  if (revealed && rated !== undefined) {
-    document.getElementById('sim-ok-btn').style.opacity = rated === true ? '1' : '0.4';
-    document.getElementById('sim-nok-btn').style.opacity = rated === false ? '1' : '0.4';
-  }
+  // options
+  const container = document.getElementById('sim-options');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.disabled = answered;
+    if (answered) {
+      if (i === q.correct) btn.classList.add('correct');
+      else if (i === selectedOpt) btn.classList.add('wrong');
+    }
+    btn.innerHTML = `<span class="opt-letter">${LETTERS[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => selectSimOption(i));
+    container.appendChild(btn);
+  });
 
-  document.getElementById('sim-q-counter').textContent = `${simIndex+1} / ${simDeck.length}`;
-  document.getElementById('sim-progress-bar').style.width = ((simIndex+1)/simDeck.length*100)+'%';
+  // explanation
+  document.getElementById('sim-explain-text').textContent = q.a;
+  document.getElementById('sim-explanation').classList.toggle('show', answered);
 
-  const rated_count = Object.keys(simAnswers).length;
-  const correct_count = Object.values(simAnswers).filter(Boolean).length;
+  // score
+  const answeredCount = Object.keys(simAnswers).length;
+  const correctCount = Object.entries(simAnswers).filter(([k, v]) => v === simDeck[parseInt(k)].correct).length;
   document.getElementById('sim-score-live').textContent =
-    rated_count > 0 ? `Respondidas: ${rated_count} | ✓ ${correct_count}  ✗ ${rated_count-correct_count}` : '';
+    answeredCount > 0 ? `Respondidas: ${answeredCount} | ✓ ${correctCount}  ✗ ${answeredCount - correctCount}` : '';
 }
 
-function revealSimAnswer() {
-  simRevealed[simIndex] = true;
+function selectSimOption(optIndex) {
+  if (simAnswers[simIndex] !== undefined) return;
+  simAnswers[simIndex] = optIndex;
   renderSimCard();
-}
-
-function rateSimAnswer(correct) {
-  simAnswers[simIndex] = correct;
-  const btn_ok = document.getElementById('sim-ok-btn');
-  const btn_nok = document.getElementById('sim-nok-btn');
-  btn_ok.style.opacity = correct ? '1' : '0.4';
-  btn_nok.style.opacity = !correct ? '1' : '0.4';
-
-  renderSimCard();
-  // auto advance if not last
+  // auto-advance after a moment if not last
   if (simIndex < simDeck.length - 1) {
-    setTimeout(() => simNav(1), 400);
+    setTimeout(() => simNav(1), 1000);
   }
 }
 
@@ -880,46 +926,85 @@ function showResults() {
 
   const total = simDeck.length;
   const answered = Object.keys(simAnswers).length;
-  const correct = Object.values(simAnswers).filter(Boolean).length;
+  const correct = Object.entries(simAnswers).filter(([k, v]) => v === simDeck[parseInt(k)].correct).length;
   const wrong = answered - correct;
   const skipped = total - answered;
-  const pct = answered > 0 ? Math.round((correct / total) * 100) : 0;
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
 
   const elapsed = Math.floor((Date.now() - simStartTime) / 1000);
-  const m = String(Math.floor(elapsed/60)).padStart(2,'0');
-  const s = String(elapsed%60).padStart(2,'0');
+  const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const s = String(elapsed % 60).padStart(2, '0');
 
   document.getElementById('res-pct').textContent = pct + '%';
+  document.getElementById('res-pct').style.color =
+    pct >= 70 ? 'var(--dd-green)' : pct >= 50 ? 'var(--dd-yellow)' : 'var(--dd-red)';
   document.getElementById('res-correct').textContent = correct;
   document.getElementById('res-wrong').textContent = wrong;
   document.getElementById('res-skipped').textContent = skipped;
   document.getElementById('res-time').textContent = `${m}:${s}`;
 
-  document.getElementById('res-pct').style.color =
-    pct >= 70 ? 'var(--dd-green)' : pct >= 50 ? 'var(--dd-yellow)' : 'var(--dd-red)';
+  const badge = document.getElementById('res-badge');
+  if (pct >= 70) {
+    badge.textContent = '✓ APROVADO';
+    badge.className = 'result-badge badge-pass';
+  } else {
+    badge.textContent = '✗ REPROVADO';
+    badge.className = 'result-badge badge-fail';
+  }
+
+  // Review of wrong/skipped
+  const reviewSection = document.getElementById('review-section');
+  const wrongItems = simDeck.map((q, i) => ({ q, i, sel: simAnswers[i] }))
+    .filter(({ q, i, sel }) => sel === undefined || sel !== q.correct);
+
+  if (wrongItems.length === 0) {
+    reviewSection.innerHTML = '<p style="text-align:center;color:var(--dd-green);font-weight:600;margin-top:20px">🎉 Todas as questões corretas!</p>';
+    return;
+  }
+
+  let html = `<h3>📋 Revisão — ${wrongItems.length} ${wrongItems.length === 1 ? 'questão' : 'questões'} para revisar</h3>`;
+  wrongItems.forEach(({ q, i, sel }) => {
+    const yourText = sel !== undefined ? `${LETTERS[sel]}) ${q.options[sel]}` : '(não respondida)';
+    const correctText = `${LETTERS[q.correct]}) ${q.options[q.correct]}`;
+    html += `
+      <div class="review-item">
+        <div class="rq-text">Q${q.id}. ${q.q}</div>
+        <div class="rq-your">✗ Sua resposta: ${yourText}</div>
+        <div class="rq-correct">✓ Correto: ${correctText}</div>
+        <div class="rq-explain">${q.a}</div>
+      </div>`;
+  });
+  reviewSection.innerHTML = html;
 }
 
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 // LISTA
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 function renderList(filter = '') {
   const container = document.getElementById('question-list');
   const lower = filter.toLowerCase();
   container.innerHTML = '';
-  QUESTIONS.filter(q =>
-    !filter || q.q.toLowerCase().includes(lower) || q.a.toLowerCase().includes(lower)
-  ).forEach(q => {
+  QUESTIONS.filter(q => {
+    if (!filter) return true;
+    return q.q.toLowerCase().includes(lower) ||
+      q.a.toLowerCase().includes(lower) ||
+      q.options.some(o => o.toLowerCase().includes(lower));
+  }).forEach(q => {
     const div = document.createElement('div');
     div.className = 'q-item';
+    const optsHtml = q.options.map((opt, i) =>
+      `<div class="q-opt-line ${i === q.correct ? 'correct-opt' : ''}">${LETTERS[i]}) ${opt}${i === q.correct ? ' ✓' : ''}</div>`
+    ).join('');
     div.innerHTML = `
       <div class="q-item-header">
         <span class="q-num">${q.id}</span>
-        <span class="q-text">${q.q}</span>
+        <span class="q-text-small">${q.q}</span>
       </div>
-      <div class="q-answer">${q.a}</div>
-    `;
+      <div class="q-opts">${optsHtml}</div>
+      <div class="q-answer">${q.a}</div>`;
     div.addEventListener('click', () => {
       div.classList.toggle('expanded');
+      div.querySelector('.q-opts').classList.toggle('show');
       div.querySelector('.q-answer').classList.toggle('show');
     });
     container.appendChild(div);
@@ -930,9 +1015,9 @@ function filterList() {
   renderList(document.getElementById('search-input').value);
 }
 
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 // INIT
-// ─────────────────────────────────────────────
+// ────────────────────────────────────────────────────────
 updateHomeStats();
 </script>
 </body>
